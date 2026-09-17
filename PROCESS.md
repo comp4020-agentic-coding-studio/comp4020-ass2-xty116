@@ -1,53 +1,56 @@
 # Process overview
 
-<!-- TEMPLATE: this file is a shape to fill in, not a form. Replace everything
-     in it with your own overview, and delete this comment — `pnpm
-     check:evidence` will remind you if it's still here. -->
-
-Written by you, for a reader: how you got from the brief to the harness and
-agentic workflow behind this submission. Markers read this file and follow its
-citations; they don't trawl the repo for evidence you didn't point at.
-
-This file is the shape; the course site's
-[assessment page](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/topics/assessment/#what-you-submit)
-is the requirement, and its
-[word counts](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/topics/assessment/#word-counts)
-cover every deliverable.
-
 ## What I built
 
-One paragraph: the thing, and the idea behind it.
+I built **SLOP3255: How to Hear the Universe**, a twelve-week Slop University
+course about astronomical data sonification. Its central position is that data
+does not “sing” by itself: an audible result is produced by choices about
+scaling, timing, filtering, timbre and interaction. The course therefore asks
+students to expose the chain from observation to playback. Twelve lectures and
+twelve Listening Labs move from basic mapping through pulsars, solar radio,
+GW150914, image scanning and spectra, then into uncertainty, accessibility and
+ethical critique. Four staged assessments culminate in a public listening
+instrument. The site also contains a working Web Audio lab in which the same
+synthetic light curve can be heard through pitch or rhythm while its values and
+mapping rules remain visible.
 
 ## How I got here
 
-The account of the process: how the work actually went, and how you knew the
-result was right. Tell it in whatever order makes it clear. A weekly prototype
-needs a paragraph or two; an assignment needs more.
+I used Codex as an implementation agent, but first turned the idea into a
+repo-local harness in `CLAUDE.md`. The harness fixed the course's intellectual
+position, content contracts, interaction rules and two marking viewports. A
+representative instruction was:
 
-Cite the record as you go, as links whose text is the commit hash or range and
-whose target is this repo's commit or compare URL, so a reader clicks straight
-to the evidence:
+> Treat sonification as an accountable mapping from data to sound. Never call
+> an output “the sound of space” without naming the source data,
+> transformation and uncertainty.
 
-- one commit: [`a1b2c3d`](https://github.com/YOUR-ORG/YOUR-REPO/commit/a1b2c3d)
-- a range:
-  [`a1b2c3d...e4f5a6b`](https://github.com/YOUR-ORG/YOUR-REPO/compare/a1b2c3d...e4f5a6b)
+Before replacing the starter, I asked the agent to encode the non-negotiable
+structure as tests. Commit
+[`f4c98b3`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/f4c98b3)
+introduced a deliberately red contract for the allocated code, twelve distinct
+weekly questions and data objects, twelve lab outputs, a real deck and four
+assessments totalling 100%. Running it against the starter produced four
+failures. That gave the implementation a concrete stopping condition rather
+than relying on visual completeness.
 
-To pair a prompt with the commit it produced, quote the prompt (curated, not a
-full transcript) next to the citation:
+The main build in
+[`5901cbe`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/5901cbe)
+returned that contract to green. I directed the agent to keep the fixed SlopU
+platform while replacing all starter content and imagery. We checked scientific
+claims against primary institutional sources including LIGO, NASA Exoplanet
+Watch, Chandra and CSIRO/ATNF. The generated observatory hero was used as a
+course-specific visual asset, while the page treatment used measured grids,
+readouts and mapping legends instead of a generic space aesthetic. The
+Listening Lab uses no autoplay, exposes raw values, provides a stop control and
+keeps a non-audio representation on screen.
 
-> the prompt, verbatim
-
-Screenshots are welcome where one carries the point better than a sentence does.
-Commit the file to this repo and link it with a **relative** path, which is what
-makes it render on GitHub: `![alt text](docs/before.png)`. Images don't count
-towards the word count and don't replace the citation.
-
-## Before you ship
-
-`pnpm check:evidence` verifies that this comment is gone, that your citations
-resolve to real commits, that a crit week's reflection entry is in
-`reflections/`, and that your `CLAUDE.md` is there. It checks that your account
-is traceable, not that it is good: that is the marker's call.
-
-Images aren't checked: unlike a citation whose SHA doesn't resolve, a broken
-image is visible the moment this file is rendered on GitHub.
+Automated checks were only one sensor. I inspected the live site at 1920×1080
+and 390×844, exercised play, stop and both radio modes, and opened the week-six
+deck and non-adjacent course pages. This caught issues the build did not:
+course styles were absent from direct Astro pages, the ten bars scrolled on a
+phone, index pages lacked visible headings, and Reveal's default mobile scaling
+made deck text too small. Commit
+[`fb4b487`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/fb4b487)
+records the responsive fixes. I then re-ran type checking, production build,
+accessibility, internal-link, deck, generated-API and custom contract checks.
