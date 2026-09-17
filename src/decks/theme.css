@@ -29,3 +29,34 @@
   border: 1px solid var(--at-border);
   padding: 0.15em 0.3em;
 }
+
+@media (max-width: 600px) {
+  .reveal .slides p,
+  .reveal .slides li {
+    font-size: 46px;
+    line-height: 1.2;
+  }
+
+  .reveal .slides h1 {
+    font-size: 84px;
+  }
+
+  .reveal .slides h2 {
+    font-size: 68px;
+  }
+
+  .reveal .slides section.compact p,
+  .reveal .slides section.compact li {
+    font-size: 36px;
+    line-height: 1.15;
+  }
+
+  .reveal .slides section.compact h2 {
+    font-size: 60px;
+  }
+
+  .reveal .slides section.disclosure ul {
+    columns: 2;
+    column-gap: 2em;
+  }
+}

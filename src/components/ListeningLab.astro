@@ -157,6 +157,10 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
   @media (max-width: 42rem) {
     .lab-heading, .lab-controls { align-items: stretch; flex-direction: column; }
     .lab-status { min-width: 0; }
+    .data-plot { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.22rem; min-height: 13rem; padding-inline: 0.75rem; overflow: hidden; }
+    .sample { min-width: 0; }
+    .sample-value { font-size: 0.66rem; }
+    .sample-index { font-size: 0.62rem; }
     .mapping-legend { grid-template-columns: 1fr; }
     .mapping-legend div + div { border-block-start: 1px solid var(--at-border); border-inline-start: 0; }
     .transport button { flex: 1; justify-content: center; }
