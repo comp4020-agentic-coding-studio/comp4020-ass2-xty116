@@ -11,3 +11,21 @@
  * slide class you reach for (`_class: quote`), a code-heavy layout, a
  * background. */
 @import url("astro-theme-university/styles/deck.css");
+
+.reveal .slides section {
+  text-align: left;
+}
+
+.reveal .slides section.impact {
+  text-align: center;
+}
+
+.reveal h1,
+.reveal h2 {
+  max-width: 18ch;
+}
+
+.reveal code {
+  border: 1px solid var(--at-border);
+  padding: 0.15em 0.3em;
+}

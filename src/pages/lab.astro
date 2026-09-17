@@ -1,0 +1,27 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import ListeningLab from "../components/ListeningLab.astro";
+import { siteConfig } from "../site-config";
+---
+
+<ContentLayout
+  title="Open Listening Lab"
+  description="A small, inspectable sonification instrument for comparing pitch and rhythm mappings of the same dataset."
+  {...siteConfig}
+>
+  <p class="lab-lead">The lab is deliberately transparent: the numbers stay visible, the mapping changes while the source data stays fixed, and sound is never the only way to read the result. Use headphones at a comfortable level.</p>
+  <h2>Explore the curve</h2>
+  <ListeningLab />
+
+  <h2>What to notice</h2>
+  <ul>
+    <li>Pitch makes the central dip feel lower, but imports a musical idea of “low”.</li>
+    <li>Rhythm makes the same dip take more time, changing the duration of the reading.</li>
+    <li>Neither mapping is neutral. A useful sonification makes that design decision auditable.</li>
+  </ul>
+
+  <h2>Limits of this demonstration</h2>
+  <p>The curve is synthetic and has no uncertainty interval. It is useful for isolating one mapping decision, not for making an astronomical claim. Later labs add provenance, missing samples, error and real public datasets.</p>
+</ContentLayout>
+
+<style>.lab-lead { max-width: 68ch; font-size: 1.12rem; }</style>

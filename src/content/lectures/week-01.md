@@ -1,30 +1,28 @@
 ---
-title: Opening lecture
-description:
-  The first lecture — what the course is, why it is shaped this way, and what
-  happens in week 1
+title: Can space be heard?
+description: Separate physical sound, electromagnetic measurement and designed sonification.
 week: 1
-date: 2027-02-22
-teachers:
-  - marisol-quaye
-slides: /decks/week-01/
+date: 2027-07-26
+teachers: [amara-vale]
+question: What exactly are we hearing when an astronomical dataset becomes sound?
+dataObject: synthetic light curve
 related:
-  - sessions/01-getting-started
+  - sessions/week-01
+  - assessments/listening-notebook
 ---
 
-<!-- STARTER_CONTENT: replace this lecture, then remove this comment. -->
+## The question
 
-Replace this page. A lecture entry says what was covered and links to the pages
-that own the detail, so the lecture stays short and nothing is explained twice.
+Space is not a recording studio. Most course examples begin as measurements
+that are translated, scaled and sequenced before a speaker moves. We establish
+the distinction between **audification** (replaying a signal in an audible
+range) and **parameter mapping** (assigning data dimensions to sound
+dimensions).
 
-The `related:` ref above is a graph edge: it renders on this page and on the
-session's, so declare a connection once, on whichever side is convenient.
+## Signal chain
 
-The page renders its `slides:` link automatically. Decks are markdown too,
-under `src/decks/`; the path is part of the lecture's API metadata.
+Synthetic brightness samples → normalize 0–1 → map to pitch or interval →
+play in sample order. The mapping is designed; the dip in the values is not.
 
-## Outline
-
-- what the course is for
-- how the weeks are shaped
-- what to do before the first session
+Explore the course [Open Listening Lab](/lab/) and compare both mappings. Record
+what each makes easy to notice and what it hides.

@@ -43,20 +43,17 @@ export const slopCourseMetaSchema = z
 // Replace every placeholder value, but keep the shape: the catalogue ingests
 // this API contract when the course is published.
 //
-// The code's last three digits were assigned to this repo when it was
-// provisioned, and no other course in the cohort has them. Change the first
-// digit to your course's level (and `level` to match); keep the other three.
-// STARTER_CONTENT: replace this course record, then remove this comment.
+// The assigned suffix is 255. The leading digit sets this as a third-year
+// course while preserving the cohort-unique identifier.
 export const courseMeta = slopCourseMetaSchema.parse({
-  code: "SLOP1255",
-  title: "Course Title Goes Here",
-  session: "Semester 1",
+  code: "SLOP3255",
+  title: "How to Hear the Universe",
+  session: "Semester 2",
   year: 2027,
-  level: 1,
-  startDate: "2027-02-22",
-  endDate: "2027-05-28",
+  level: 3,
+  startDate: "2027-07-26",
+  endDate: "2027-10-29",
   description:
-    "One concise paragraph explaining what this course is, who it is for, " +
-    "and why somebody would choose to spend a semester taking it.",
-  tags: ["replace me"],
+    "A studio course in astronomical data sonification: trace signals from telescope to speaker, design accountable mappings, and build a listening instrument that never hides its data.",
+  tags: ["sonification", "astronomy", "accessible science"],
 }) satisfies CourseMetaInput;

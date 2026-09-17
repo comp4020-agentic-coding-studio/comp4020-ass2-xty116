@@ -1,0 +1,165 @@
+---
+import Icon from "astro-theme-university/components/Icon.astro";
+
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
+---
+
+<div class:list={["listening-lab", { compact }]} data-listening-lab>
+  <div class="lab-heading">
+    <div>
+      <p class="lab-kicker">Synthetic teaching data · 10 samples</p>
+      <h3>Relative brightness over time</h3>
+    </div>
+    <output class="lab-status" data-status aria-live="polite">Ready</output>
+  </div>
+
+  <div class="data-plot" role="img" aria-label="Ten relative brightness samples. Values dip from 0.99 to 0.83 around the fifth sample, then recover to 1.0.">
+    {values.map((value, index) => (
+      <div class="sample" style={`--value: ${value}`}>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="sample-value">{value.toFixed(2)}</span>
+        <span class="sample-index">{index + 1}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="lab-controls">
+    <fieldset class="mapping-modes">
+      <legend>Mapping mode</legend>
+      <label><input type="radio" name={`mapping-${compact ? "compact" : "full"}`} value="pitch" checked /> Pitch</label>
+      <label><input type="radio" name={`mapping-${compact ? "compact" : "full"}`} value="rhythm" /> Rhythm</label>
+    </fieldset>
+    <div class="transport">
+      <button type="button" data-play><Icon name="play" /> Play</button>
+      <button type="button" class="stop" data-stop disabled><Icon name="pause" /> Stop</button>
+    </div>
+  </div>
+
+  <dl class="mapping-legend">
+    <div><dt>Source</dt><dd>Synthetic relative brightness, 0.83–1.00</dd></div>
+    <div data-pitch-rule><dt>Pitch rule</dt><dd>Brightness maps linearly to 220–660 Hz; samples remain 320 ms apart.</dd></div>
+    <div data-rhythm-rule hidden><dt>Rhythm rule</dt><dd>Pitch stays at 392 Hz; lower brightness creates a longer 180–520 ms interval.</dd></div>
+    <div><dt>Constant</dt><dd>Sine timbre, 120 ms note, quiet master gain</dd></div>
+  </dl>
+
+  <p class="lab-note">These values are invented for learning. They resemble a transit-shaped dip but do not represent a discovered planet.</p>
+</div>
+
+<script>
+  const labs = document.querySelectorAll<HTMLElement>("[data-listening-lab]");
+  for (const lab of labs) {
+    const readings = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
+    const play = lab.querySelector<HTMLButtonElement>("[data-play]");
+    const stop = lab.querySelector<HTMLButtonElement>("[data-stop]");
+    const status = lab.querySelector<HTMLOutputElement>("[data-status]");
+    const pitchRule = lab.querySelector<HTMLElement>("[data-pitch-rule]");
+    const rhythmRule = lab.querySelector<HTMLElement>("[data-rhythm-rule]");
+    let context: AudioContext | undefined;
+    let timers: number[] = [];
+    let active = false;
+
+    const mode = () => lab.querySelector<HTMLInputElement>("input[type=radio]:checked")?.value ?? "pitch";
+    const clear = () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      timers = [];
+      active = false;
+      if (play) play.disabled = false;
+      if (stop) stop.disabled = true;
+      if (status) status.value = "Stopped";
+      lab.querySelectorAll(".sample.active").forEach((sample) => sample.classList.remove("active"));
+    };
+
+    const tone = (frequency: number) => {
+      if (!context) return;
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = "sine";
+      oscillator.frequency.value = frequency;
+      gain.gain.setValueAtTime(0.0001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.06, context.currentTime + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.12);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + 0.13);
+    };
+
+    const perform = async () => {
+      clear();
+      context ??= new AudioContext();
+      await context.resume();
+      active = true;
+      if (play) play.disabled = true;
+      if (stop) stop.disabled = false;
+      const selected = mode();
+      let elapsed = 0;
+      readings.forEach((reading, index) => {
+        const delay = selected === "pitch" ? 320 : 180 + ((1 - reading) / 0.17) * 340;
+        timers.push(window.setTimeout(() => {
+          if (!active) return;
+          lab.querySelectorAll(".sample.active").forEach((sample) => sample.classList.remove("active"));
+          lab.querySelectorAll<HTMLElement>(".sample")[index]?.classList.add("active");
+          const frequency = selected === "pitch" ? 220 + ((reading - 0.83) / 0.17) * 440 : 392;
+          tone(frequency);
+          if (status) status.value = `Sample ${index + 1}: ${reading.toFixed(2)}`;
+        }, elapsed));
+        elapsed += delay;
+      });
+      timers.push(window.setTimeout(() => {
+        clear();
+        if (status) status.value = "Complete";
+      }, elapsed + 180));
+    };
+
+    play?.addEventListener("click", perform);
+    stop?.addEventListener("click", clear);
+    lab.querySelectorAll<HTMLInputElement>("input[type=radio]").forEach((radio) => {
+      radio.addEventListener("change", () => {
+        clear();
+        const pitch = mode() === "pitch";
+        if (pitchRule) pitchRule.hidden = !pitch;
+        if (rhythmRule) rhythmRule.hidden = pitch;
+        if (status) status.value = pitch ? "Pitch mapping selected" : "Rhythm mapping selected";
+      });
+    });
+    window.addEventListener("pagehide", clear, { once: true });
+  }
+</script>
+
+<style>
+  .listening-lab { margin-block: 1.5rem 4rem; border: 1px solid var(--at-border); border-top: 5px solid var(--at-primary); border-radius: 4px; background: var(--at-bg-elevated); }
+  .lab-heading, .lab-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem; }
+  .lab-heading h3 { margin: 0; font-size: 1.2rem; }
+  .lab-kicker { margin: 0 0 0.35rem; color: var(--at-text-secondary); font-size: 0.76rem; text-transform: uppercase; }
+  .lab-status { min-width: 8rem; padding: 0.55rem 0.7rem; border: 1px solid var(--at-border); font-variant-numeric: tabular-nums; text-align: center; }
+  .data-plot { display: grid; grid-template-columns: repeat(10, minmax(2.25rem, 1fr)); gap: 0.35rem; min-height: 15rem; padding: 1.25rem; border-block: 1px solid var(--at-border); overflow-x: auto; }
+  .sample { display: grid; grid-template-rows: 1fr auto auto; min-width: 2.25rem; text-align: center; }
+  .bar { align-self: end; height: calc((var(--value) - 0.78) * 500%); min-height: 2rem; background: var(--at-secondary); transition: background-color 120ms ease, outline 120ms ease; }
+  .sample.active .bar { outline: 3px solid var(--at-text); background: var(--at-primary); }
+  .sample-value { margin-block-start: 0.45rem; font-size: 0.76rem; font-variant-numeric: tabular-nums; }
+  .sample-index { color: var(--at-text-secondary); font-size: 0.68rem; }
+  .mapping-modes { display: flex; gap: 0; margin: 0; padding: 0; border: 0; }
+  .mapping-modes legend { margin-block-end: 0.4rem; font-size: 0.78rem; font-weight: 700; }
+  .mapping-modes label { padding: 0.55rem 0.8rem; border: 1px solid var(--at-border); cursor: pointer; }
+  .mapping-modes label + label { border-inline-start: 0; }
+  .mapping-modes input { margin-inline-end: 0.35rem; }
+  .transport { display: flex; gap: 0.55rem; }
+  .transport button { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.65rem; padding: 0.55rem 0.9rem; border: 1px solid var(--at-text); border-radius: 2px; color: var(--at-bg); background: var(--at-text); font: inherit; font-weight: 700; cursor: pointer; }
+  .transport button.stop { color: var(--at-text); background: transparent; }
+  .transport button:disabled { cursor: not-allowed; opacity: 0.42; }
+  .mapping-legend { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border-top: 1px solid var(--at-border); }
+  .mapping-legend div { padding: 1rem 1.25rem; }
+  .mapping-legend div + div { border-inline-start: 1px solid var(--at-border); }
+  .mapping-legend dt { margin-block-end: 0.35rem; color: var(--at-primary); font-size: 0.75rem; font-weight: 750; text-transform: uppercase; }
+  .mapping-legend dd { margin: 0; color: var(--at-text-secondary); font-size: 0.85rem; }
+  .lab-note { margin: 0; padding: 1rem 1.25rem; border-top: 1px solid var(--at-border); color: var(--at-text-secondary); font-size: 0.82rem; }
+  @media (max-width: 42rem) {
+    .lab-heading, .lab-controls { align-items: stretch; flex-direction: column; }
+    .lab-status { min-width: 0; }
+    .mapping-legend { grid-template-columns: 1fr; }
+    .mapping-legend div + div { border-block-start: 1px solid var(--at-border); border-inline-start: 0; }
+    .transport button { flex: 1; justify-content: center; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bar { transition: none; } }
+</style>

@@ -1,23 +1,29 @@
 ---
-title: Second lecture
-description:
-  Week 2 — the first substantive material, and the run-up to the first review
+title: From telescope to speaker
+description: Follow a measurement through calibration, reduction, representation and playback.
 week: 2
-date: 2027-03-01
-teachers:
-  - idris-fenn
+date: 2027-08-02
+teachers: [amara-vale]
+question: Which transformations happen before a telescope measurement reaches a listener?
+dataObject: calibrated detector time series
 related:
-  - sessions/02-first-review
-  - assessments/assignment-1
+  - sessions/week-02
+  - assessments/listening-notebook
 ---
 
-<!-- STARTER_CONTENT: replace this lecture, then remove this comment. -->
+## The question
 
-Replace this page. It exists so the lectures listing sorts by week and the
-related block has more than one edge to draw.
+A sonification never starts with “the universe”. It starts with an instrument,
+units, sampling choices and a reduction pipeline. We draw a provenance chain
+that distinguishes collected values from corrections, derived values and
+presentation choices.
 
-## Outline
+## Signal chain
 
-- the first substantive material, and where it shows up in practice
-- what the first review is looking for
-- reading before next week
+Detector counts → remove instrument bias → attach timestamps and units →
+select a time window → rescale for hearing → render. Every arrow must be
+documented because each can change the claim a listener is able to make.
+
+NASA's [Exoplanet Watch analysis guide](https://science.nasa.gov/citizen-science/exoplanet-watch/how-to-contribute/how-to-analyze-your-data/)
+is a useful example: raw telescope images become a light curve only after a
+named reduction process.
