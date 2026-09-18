@@ -63,6 +63,10 @@ surfaces into a dark instrument environment with scan lines, signal colours and
 a synthetic telemetry display. Its animation can be paused and is disabled by
 the user's reduced-motion preference; the panel also states that it is a visual
 simulation rather than scientific evidence. I expanded the original single
-deck into twelve distinct lecture decks, then used browser measurements to
-check every slide at 390×844 and adjust only the crowded slides. A final
-contract now asserts that every lecture owns a unique deck route.
+deck so every lecture owned a unique route. Commit
+[`9beaf20`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/9beaf20)
+then replaced the outline-like decks with 110 taught slides: evidence tables,
+synthetic plots, process diagrams and distinct lab briefs tied to each week's
+data object. I raised the contract to require at least eight slides per lecture
+and measured every slide at 1920×1080 and 390×844 so depth could not regress
+into repeated content-shaped chunks.
