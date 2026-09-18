@@ -54,3 +54,15 @@ made deck text too small. Commit
 [`fb4b487`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/fb4b487)
 records the responsive fixes. I then re-ran type checking, production build,
 accessibility, internal-link, deck, generated-API and custom contract checks.
+
+A final visual pass in
+[`4734793`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/4734793)
+made the course interface behave more like a listening observatory than a
+generic template. I retained the fixed SlopU identity and palette, but moved the
+surfaces into a dark instrument environment with scan lines, signal colours and
+a synthetic telemetry display. Its animation can be paused and is disabled by
+the user's reduced-motion preference; the panel also states that it is a visual
+simulation rather than scientific evidence. I expanded the original single
+deck into twelve distinct lecture decks, then used browser measurements to
+check every slide at 390×844 and adjust only the crowded slides. A final
+contract now asserts that every lecture owns a unique deck route.
