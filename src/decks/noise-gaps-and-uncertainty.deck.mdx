@@ -1,72 +1,121 @@
 ---
 title: Noise, gaps and uncertainty
-description: Keeping confidence, missing values and interpolation perceptible
+description: Designing sound that preserves missingness, quality and confidence
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 09 · Evidence limits</p>
+
 # Noise, gaps and uncertainty
 
-## Clean sound can overstate certainty
-
-SLOP3255 · Week 9
+<p className="lede">Clean sound can overstate certainty. An honest instrument preserves the limits of its evidence.</p>
 
 ---
 
-{/* _class: compact */}
-
 ## A value is not alone
 
-A scientific table may include:
+<div className="deck-grid three">
+  <div className="metric gold"><strong>0.83</strong><span>reported measurement</span></div>
+  <div className="metric"><strong>±0.04</strong><span>estimated uncertainty</span></div>
+  <div className="metric warm"><strong>Q2</strong><span>quality flag and observing context</span></div>
+</div>
 
-- measured value
-- uncertainty interval
-- quality flag
-- timestamp
-- missing-data code
-
-Sonifying only the central value removes part of the evidence.
+Rendering only 0.83 removes the information needed to judge how much confidence it deserves.
 
 ---
 
 ## Missing is not zero
 
-Zero is a measurement.
+<table className="mapping-table">
+  <thead><tr><th>State</th><th>Meaning</th><th>Auditory treatment</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>a valid measured value</td><td>render using the normal rule</td></tr>
+    <tr><td>NA</td><td>no valid value exists</td><td>explicit gap marker</td></tr>
+    <tr><td>flagged</td><td>value exists but is suspect</td><td>retain value + quality cue</td></tr>
+    <tr><td>below limit</td><td>bounded non-detection</td><td>threshold cue + limit value</td></tr>
+  </tbody>
+</table>
 
-Missing means no valid value is available.
-
-Interpolation is a modelled estimate.
-
-If all three become silence, a listener cannot distinguish them.
+Silence alone cannot distinguish these four states.
 
 ---
 
-## Three uncertainty channels
+## Make the quality pattern visible
 
-**Second voice:** hear upper and lower bounds  
-**Timbre:** increase roughness with uncertainty  
-**Event cue:** announce low-confidence or missing regions
+<div className="instrument-plot" role="img" aria-label="Nine samples include one missing value, two uncertain values and six ordinary measurements">
+  <span className="axis-label y">measured value</span>
+  <span className="sample" style="--v:64"></span><span className="sample" style="--v:68"></span><span className="sample gold" style="--v:73"></span><span className="sample alert" style="--v:8"></span><span className="sample gold" style="--v:70"></span><span className="sample alert" style="--v:78"></span><span className="sample" style="--v:74"></span><span className="sample" style="--v:69"></span><span className="sample" style="--v:66"></span>
+  <span className="axis-label x">sample →</span>
+</div>
 
-Each channel competes with the primary pattern. Make it switchable.
+Colour and sound need a shared legend: gold = wider uncertainty; coral = missing or suspect.
+
+---
+
+{/* _class: compact */}
+
+## Four uncertainty strategies
+
+<table className="mapping-table">
+  <thead><tr><th>Strategy</th><th>Example</th><th>Best for</th></tr></thead>
+  <tbody>
+    <tr><td>Boundary</td><td>low and high tones around estimate</td><td>reading an interval</td></tr>
+    <tr><td>Texture</td><td>more noise as confidence falls</td><td>continuous quality overview</td></tr>
+    <tr><td>Repetition</td><td>multiple samples from a distribution</td><td>variation and overlap</td></tr>
+    <tr><td>Layer</td><td>separate optional quality channel</td><td>expert inspection</td></tr>
+  </tbody>
+</table>
+
+No strategy is inherently honest. Test whether the cue supports the intended uncertainty task.
+
+---
+
+## Avoid the “bad data” instrument
+
+<div className="deck-grid">
+  <div className="choice warm"><p className="panel-title">Punitive cue</p><p>Harsh distortion marks every uncertain value.</p><span>Uncertainty begins to sound like failure.</span></div>
+  <div className="choice gold"><p className="panel-title">Informative cue</p><p>A bounded, optional texture shows confidence without replacing the value.</p><span>Quality remains data, not judgement.</span></div>
+</div>
+
+The emotional character of a cue affects interpretation.
 
 ---
 
 ## Test the uncertainty task
 
-Ask a listener to:
+<div className="process-flow">
+  <div><strong>Locate</strong><span>Which samples are least certain?</span></div>
+  <div><strong>Compare</strong><span>Do two intervals overlap?</span></div>
+  <div><strong>Detect</strong><span>Where are values missing?</span></div>
+  <div><strong>Calibrate</strong><span>Does confidence match performance?</span></div>
+</div>
 
-- locate the least certain region
-- distinguish a gap from a measured minimum
-- compare patterns with uncertainty on and off
+A cue that merely sounds “fuzzy” has not yet passed a task.
 
-Record errors, not just preferences.
+---
+
+## Publish the clean and the complete view
+
+<div className="deck-grid three">
+  <div className="panel gold"><p className="panel-title">Estimate layer</p><p>the primary measured pattern</p></div>
+  <div className="panel"><p className="panel-title">Quality layer</p><p>uncertainty, flags and limits</p></div>
+  <div className="panel warm"><p className="panel-title">Data table</p><p>values, units and missing-state codes</p></div>
+</div>
+
+The listener may simplify the experience without losing access to the evidence.
 
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">Listening Lab 09 · Output: uncertainty legend</p>
+
 # Make uncertainty audible
 
-Keep the original value, error and quality fields visible.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Design and compare two cues for confidence intervals in a synthetic ten-point series.</p></div>
+  <div><p className="panel-title">Test</p><ul><li>locate widest interval</li><li>find missing point</li><li>rate confidence</li></ul></div>
+</div>
 
-Interpolation is never silent.
+<p className="source-note">Keep measured value and uncertainty in separable auditory dimensions.</p>

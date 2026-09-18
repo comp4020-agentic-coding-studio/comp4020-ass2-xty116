@@ -5,11 +5,11 @@ description: Comparing auditory dimensions, scales and perceptual consequences
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 03 · Mapping design</p>
+
 # Mapping numbers to sound
 
-## A mapping is a model
-
-SLOP3255 · Week 3
+<p className="lede">A mapping is a model: it decides which difference a listener is allowed to notice.</p>
 
 ---
 
@@ -17,62 +17,111 @@ SLOP3255 · Week 3
 
 ## Auditory dimensions are not interchangeable
 
-Pitch supports ordered comparison.
+<table className="mapping-table">
+  <thead><tr><th>Sound dimension</th><th>Strong for</th><th>Watch for</th></tr></thead>
+  <tbody>
+    <tr><td>Pitch</td><td>order and contour</td><td>range, tuning and musical expectation</td></tr>
+    <tr><td>Duration</td><td>interval and event density</td><td>slow playback</td></tr>
+    <tr><td>Loudness</td><td>salient contrast</td><td>safety and device differences</td></tr>
+    <tr><td>Timbre</td><td>categories and layers</td><td>hard-to-name differences</td></tr>
+    <tr><td>Stereo position</td><td>relative location</td><td>headphones and hearing asymmetry</td></tr>
+  </tbody>
+</table>
 
-Loudness is powerful but bounded by hearing safety.
+---
 
-Timbre can separate categories but is hard to quantify.
+## Data frequency is not automatically pitch
 
-Stereo position suggests location but changes with listening equipment.
+<div className="deck-grid three">
+  <div className="metric gold"><strong>1 Hz</strong><span>one event per second: below ordinary musical pitch</span></div>
+  <div className="metric"><strong>440 Hz</strong><span>an audible reference pitch, conventionally A4</span></div>
+  <div className="metric warm"><strong>×440</strong><span>a possible scaling operation that must be disclosed</span></div>
+</div>
 
-Time creates sequence even when the source had none.
+The same word, **frequency**, can name a measured repetition rate or an audio oscillator. Do not collapse them.
 
 ---
 
 ## Linear or logarithmic?
 
-A linear scale preserves equal numerical differences.
+<table className="mapping-table">
+  <thead><tr><th>Input</th><th>Linear pitch</th><th>Log pitch</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>220 Hz</td><td>220 Hz</td></tr>
+    <tr><td>10</td><td>260 Hz</td><td>440 Hz</td></tr>
+    <tr><td>100</td><td>660 Hz</td><td>880 Hz</td></tr>
+  </tbody>
+</table>
 
-A logarithmic scale makes ratios easier to compare across a large range.
-
-Musical pitch already feels logarithmic: doubling frequency is heard as an
-octave.
-
-Choose the scale for the task, not for familiarity.
-
----
-
-## Continuous or quantised?
-
-Continuous pitch preserves fine differences.
-
-Quantised notes are easier to name and remember.
-
-Quantisation can also invent steps that the data never contained.
-
-The legend must name thresholds and rounding.
+Linear mapping preserves equal **differences**. Log mapping foregrounds equal **ratios**. The task chooses the scale.
 
 ---
 
 {/* _class: compact */}
 
-## Test a question, not a vibe
+## Continuous or quantised?
 
-Can a listener:
+<div className="instrument-plot" role="img" aria-label="Nine gradually increasing samples, with alternating bars highlighted to suggest quantisation thresholds">
+  <span className="axis-label y">mapped height</span>
+  <span className="sample" style="--v:20"></span><span className="sample" style="--v:29"></span><span className="sample gold" style="--v:40"></span><span className="sample gold" style="--v:48"></span><span className="sample" style="--v:57"></span><span className="sample" style="--v:66"></span><span className="sample alert" style="--v:77"></span><span className="sample alert" style="--v:86"></span><span className="sample" style="--v:96"></span>
+  <span className="axis-label x">input value →</span>
+</div>
 
-- locate the largest value?
-- detect a repeated pattern?
-- compare two rates of change?
-- identify an outlier?
+Continuous pitch keeps small differences. Quantised notes are memorable, but they invent thresholds that the data did not contain.
 
-A mapping succeeds against a task. “It sounds cosmic” is not a task.
+---
+
+## One sound dimension, one first job
+
+<div className="deck-grid three">
+  <div className="panel gold"><p className="panel-title">Time</p><p>sample order</p></div>
+  <div className="panel"><p className="panel-title">Pitch</p><p>measured value</p></div>
+  <div className="panel warm"><p className="panel-title">Timbre</p><p>quality flag</p></div>
+</div>
+
+When two data dimensions compete for pitch, a listener cannot know which one moved. Independence is a design resource.
+
+---
+
+{/* _class: compact */}
+
+## Three mappings of one sequence
+
+<table className="mapping-table">
+  <thead><tr><th>Sequence</th><th>Rule</th><th>Question supported</th></tr></thead>
+  <tbody>
+    <tr><td>2, 4, 8, 4, 2</td><td>value → pitch</td><td>where is the maximum?</td></tr>
+    <tr><td>2, 4, 8, 4, 2</td><td>value → interval</td><td>where does pacing slow?</td></tr>
+    <tr><td>2, 4, 8, 4, 2</td><td>value → timbre</td><td>which category dominates?</td></tr>
+  </tbody>
+</table>
+
+The source is fixed. The supported inference changes.
+
+---
+
+## Evaluate a question, not a vibe
+
+<div className="process-flow">
+  <div><strong>Predict</strong><span>State what a listener should detect.</span></div>
+  <div><strong>Listen</strong><span>Hide the plot and mapping legend.</span></div>
+  <div><strong>Answer</strong><span>Record accuracy and confidence.</span></div>
+  <div><strong>Revise</strong><span>Change one parameter, then repeat.</span></div>
+</div>
+
+“It sounds cosmic” is an aesthetic response, not an evaluation task.
 
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">Listening Lab 03 · Output: mapping scorecard</p>
+
 # Mapping shoot-out
 
-One sequence. Three mappings. Three listeners.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Render one five-value sequence with pitch, interval and timbre. Test each version with a defined question.</p></div>
+  <div><p className="panel-title">Deliver</p><ul><li>complete rule</li><li>listener result</li><li>selected mapping</li></ul></div>
+</div>
 
-Select with evidence, then publish the complete rule.
+<p className="source-note">Keep the source values and playback duration fixed while comparing mappings.</p>

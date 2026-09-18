@@ -60,6 +60,10 @@ describe("SLOP3255 course contract", () => {
     expect(new Set(slides).size).toBe(12);
     for (const slidePath of slides) {
       expect(slidePath).toMatch(/^\/decks\/[a-z0-9-]+\/$/);
+      const slug = slidePath.split("/").filter(Boolean).at(-1);
+      const source = readFileSync(resolve(`src/decks/${slug}.deck.mdx`), "utf8");
+      const slideCount = (source.match(/^---$/gm)?.length ?? 0) - 1;
+      expect(slideCount, `${slug} needs enough material for a real lecture`).toBeGreaterThanOrEqual(8);
     }
   });
 

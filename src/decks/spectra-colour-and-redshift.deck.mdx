@@ -1,41 +1,51 @@
 ---
 title: Spectra, colour and redshift
-description: Comparing spectral lines without confusing wavelength and musical harmony
+description: Preserving wavelength order while making line position and redshift audible
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 08 · Spectral data</p>
+
 # Spectra, colour and redshift
 
-## The horizontal axis is not time
-
-SLOP3255 · Week 8
+<p className="lede">A spectrum is ordered by wavelength, not by time. Playback creates a timeline that never existed at the telescope.</p>
 
 ---
 
-## A spectrum is already ordered
+## A spectrum is already a relationship
 
-Each sample pairs wavelength with measured flux.
+<div className="deck-grid three">
+  <div className="metric gold"><strong>x</strong><span>wavelength or frequency</span></div>
+  <div className="metric"><strong>y</strong><span>flux, intensity or counts</span></div>
+  <div className="metric warm"><strong>shape</strong><span>continuum, lines and noise</span></div>
+</div>
 
-Peaks may mark emission lines.
-
-Dips may mark absorption.
-
-Spacing along the axis carries physical information. Playing left to right
-turns that axis into time.
+The first design obligation is to preserve position along the spectral axis.
 
 ---
 
-## Preserve position before beauty
+## From violet to red is not from past to future
 
-Mapping flux to pitch makes peaks sound high.
+<div className="spectrum-strip" role="img" aria-label="A visible-spectrum colour strip from violet through blue, green and yellow to red"></div>
 
-Mapping wavelength to pitch makes line position audible.
+Scanning left to right makes wavelength unfold as playback time. That is useful—but it is a convention, not a physical event sequence.
 
-These are different questions.
+<p className="question">What does “later” mean in a spectrum sonification?</p>
 
-A chord built from several lines may be memorable while obscuring their exact
-spacing.
+---
+
+{/* _class: compact */}
+
+## Hear the continuum and the lines
+
+<div className="instrument-plot" role="img" aria-label="A synthetic spectrum with a broad continuum, two emission peaks and one absorption dip">
+  <span className="axis-label y">relative flux</span>
+  <span className="sample" style="--v:39"></span><span className="sample" style="--v:44"></span><span className="sample gold" style="--v:91"></span><span className="sample" style="--v:48"></span><span className="sample alert" style="--v:18"></span><span className="sample" style="--v:55"></span><span className="sample gold" style="--v:84"></span><span className="sample" style="--v:61"></span><span className="sample" style="--v:64"></span>
+  <span className="axis-label x">wavelength →</span>
+</div>
+
+Pitch can carry flux while playback time carries wavelength. A marker timbre can distinguish reference lines from measured peaks.
 
 ---
 
@@ -43,35 +53,70 @@ spacing.
 
 ## Redshift is a comparison
 
-Spectral features move toward longer wavelengths.
+> redshift = (observed wavelength − rest wavelength) / rest wavelength
 
-To compare two spectra, keep:
+<div className="deck-grid">
+  <div className="panel gold"><p className="panel-title">Rest reference</p><p>A known spectral line at its laboratory wavelength.</p></div>
+  <div className="panel warm"><p className="panel-title">Observed line</p><p>The corresponding feature shifted in the measured spectrum.</p></div>
+</div>
 
-- the same wavelength window
-- the same scaling
-- the same playback rate
-- audible axis landmarks
+Without the reference, a moved line is only a position—not a redshift claim.
 
-Only then does a shifted cue support a shifted-line claim.
+---
+
+{/* _class: compact */}
+
+## Three ways to render a shifted line
+
+<table className="mapping-table">
+  <thead><tr><th>Method</th><th>Reference cue</th><th>Measured cue</th></tr></thead>
+  <tbody>
+    <tr><td>scan time</td><td>click at rest position</td><td>tone at observed position</td></tr>
+    <tr><td>stereo</td><td>centre anchor</td><td>left / right offset</td></tr>
+    <tr><td>pitch interval</td><td>fixed reference note</td><td>mapped comparison note</td></tr>
+  </tbody>
+</table>
+
+The listener needs both positions and the rule that relates their separation to wavelength.
 
 ---
 
 ## Reference cues need limits
 
-A spoken wavelength can orient precisely.
+<div className="deck-grid three">
+  <div className="choice gold"><p className="panel-title">Known</p><p>laboratory line identity</p></div>
+  <div className="choice"><p className="panel-title">Measured</p><p>peak position and width</p></div>
+  <div className="choice warm"><p className="panel-title">Inferred</p><p>match and redshift estimate</p></div>
+</div>
 
-A drone can mark a reference line.
+A musical consonance between notes is not evidence that the line identification is correct.
 
-A click can mark regular axis intervals.
+---
 
-Too many cues mask the spectrum. Test the smallest set that supports the task.
+## Line width and uncertainty matter
+
+<table className="mapping-table">
+  <thead><tr><th>Feature</th><th>Possible cue</th><th>Risk</th></tr></thead>
+  <tbody>
+    <tr><td>peak position</td><td>event time</td><td>playback resolution</td></tr>
+    <tr><td>line width</td><td>tone duration</td><td>confused with importance</td></tr>
+    <tr><td>uncertainty</td><td>tremolo or boundary tones</td><td>decoration can dominate</td></tr>
+  </tbody>
+</table>
+
+The cue should help answer a spectral question, not merely make the sound richer.
 
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">Listening Lab 08 · Output: line-identification legend</p>
+
 # Find the shifted line
 
-Alternating or simultaneous playback?
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Compare a synthetic rest spectrum with an observed spectrum and estimate one line shift by listening.</p></div>
+  <div><p className="panel-title">Check</p><ul><li>line identity</li><li>axis direction</li><li>uncertainty range</li></ul></div>
+</div>
 
-Test which lets a first-time listener compare position reliably.
+<p className="source-note">Reference: NASA/IPAC Extragalactic Database · redshift-independent concepts</p>

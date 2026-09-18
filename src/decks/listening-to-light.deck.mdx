@@ -5,40 +5,47 @@ description: Turning a spatial astronomical image into an inspectable sequence
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 07 · Spatial data</p>
+
 # Listening to light
 
-## An image has no beginning
-
-SLOP3255 · Week 7
+<p className="lede">An image presents many positions at once. Audio forces us to choose a beginning, route and speed.</p>
 
 ---
 
-{/* _class: dense */}
-
 ## Sonification creates time
 
-An image presents many positions at once.
+<div className="deck-grid three">
+  <div className="metric gold"><strong>2D</strong><span>image positions coexist</span></div>
+  <div className="metric"><strong>1D</strong><span>audio unfolds in sequence</span></div>
+  <div className="metric warm"><strong>route</strong><span>the bridge is a design decision</span></div>
+</div>
 
-Audio unfolds.
-
-To hear an image, we choose:
-
-- an origin
-- a route
-- a speed
-- a rule for overlapping sources
-
-That traversal becomes part of the interpretation.
+Traversal becomes part of the interpretation, even when every pixel value is preserved.
 
 ---
 
 ## Three scan geometries
 
-**Rows:** predictable, preserves horizontal order  
-**Columns:** foregrounds vertical structure  
-**Radial:** suits objects organised around a centre
+<div className="deck-grid three">
+  <div className="panel gold"><p className="panel-title">Rows</p><p>Predictable. Preserves horizontal order and raster logic.</p></div>
+  <div className="panel"><p className="panel-title">Columns</p><p>Foregrounds vertical structure and height changes.</p></div>
+  <div className="panel warm"><p className="panel-title">Radial</p><p>Suits objects organised around a chosen centre.</p></div>
+</div>
 
-No route is neutral. A route should match the question asked of the image.
+No route is neutral. Choose the route that supports the image question.
+
+---
+
+## A scan is a sequence of regions
+
+<div className="instrument-plot" role="img" aria-label="A row scan crosses a dim background, two medium sources and one bright source">
+  <span className="axis-label y">pixel intensity</span>
+  <span className="sample" style="--v:9"></span><span className="sample" style="--v:12"></span><span className="sample gold" style="--v:48"></span><span className="sample gold" style="--v:33"></span><span className="sample" style="--v:15"></span><span className="sample alert" style="--v:92"></span><span className="sample gold" style="--v:45"></span><span className="sample" style="--v:11"></span>
+  <span className="axis-label x">horizontal position →</span>
+</div>
+
+The same field scanned vertically would produce a different sequence and may separate or merge sources.
 
 ---
 
@@ -46,40 +53,65 @@ No route is neutral. A route should match the question asked of the image.
 
 ## Keep dimensions independent
 
-Horizontal position → stereo position
+<table className="mapping-table">
+  <thead><tr><th>Image dimension</th><th>Sound dimension</th><th>Listener task</th></tr></thead>
+  <tbody>
+    <tr><td>horizontal position</td><td>stereo position</td><td>locate left / right</td></tr>
+    <tr><td>vertical position</td><td>pitch</td><td>estimate height</td></tr>
+    <tr><td>brightness</td><td>level</td><td>compare intensity</td></tr>
+    <tr><td>energy band</td><td>timbre</td><td>separate layers</td></tr>
+  </tbody>
+</table>
 
-Vertical position → pitch
-
-Brightness → level
-
-Energy band → timbre
-
-If two data dimensions share one sound dimension, their meanings become hard to
-separate.
+If two data dimensions share one sound dimension, their meanings become difficult to separate.
 
 ---
 
-{/* _class: compact */}
+## Layers need controls
+
+<div className="deck-grid">
+  <div className="panel gold"><p className="panel-title">Scientific layers</p><ul><li>energy bands</li><li>source catalogue</li><li>exposure map</li><li>background estimate</li></ul></div>
+  <div className="panel"><p className="panel-title">Listener controls</p><ul><li>solo / mute</li><li>replay region</li><li>speed</li><li>scan direction</li></ul></div>
+</div>
+
+An all-at-once mix can be impressive and analytically useless.
+
+---
 
 ## Tell the listener where they are
 
-Use scan-progress cues, axis announcements or landmarks.
+<div className="process-flow">
+  <div><strong>Announce</strong><span>State origin, image size and scan route.</span></div>
+  <div><strong>Landmark</strong><span>Mark axes, centre and known sources.</span></div>
+  <div><strong>Progress</strong><span>Expose position during playback.</span></div>
+  <div><strong>Return</strong><span>Allow region replay and layer inspection.</span></div>
+</div>
 
-Provide:
+Orientation is part of access, not an optional narration layer.
 
-- a structured image description
-- source layers and units
-- a way to replay a region
-- independent layer controls
+---
 
-Orientation is part of access.
+## A complete image presentation
+
+<div className="deck-grid three">
+  <div className="choice gold"><p className="panel-title">Hear</p><p>structured scan with controllable layers</p></div>
+  <div className="choice"><p className="panel-title">Inspect</p><p>image, axes, legend and scan cursor</p></div>
+  <div className="choice warm"><p className="panel-title">Read</p><p>description, source table and values</p></div>
+</div>
+
+No single channel must carry the entire scientific argument.
 
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">Listening Lab 07 · Output: scan specification</p>
+
 # Scan an X-ray field
 
-Can a listener locate two bright regions and know when the scan ends?
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Design a route that lets a listener locate two bright regions and recognise when the scan is complete.</p></div>
+  <div><p className="panel-title">Test</p><ul><li>orientation</li><li>source separation</li><li>replay without sight</li></ul></div>
+</div>
 
-[Chandra Deep Field sonification](https://chandra.si.edu/sound/cdf.html)
+<p className="source-note">Reference: Chandra Data Sonification · chandra.si.edu/sound/</p>

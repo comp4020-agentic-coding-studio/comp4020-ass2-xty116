@@ -1,72 +1,438 @@
-/* The deck stylesheet. It is one import on purpose.
- *
- * astro-theme-university's deck.css derives every colour it uses from the
- * same --at-* brand tokens the site's own styles derive from, and
- * `brandCss: "astro-theme-slop/slop.css"` in astro.config.ts puts the Slop
- * palette behind those tokens. So a deck already matches the site, and
- * restating a colour here is how the two start to disagree.
- *
- * Deck pages are dark surfaces and they don't load the site's stylesheets ---
- * only the brand CSS and this file. Add your own rules below the import: a
- * slide class you reach for (`_class: quote`), a code-heavy layout, a
- * background. */
 @import url("astro-theme-university/styles/deck.css");
 
+:root {
+  --deck-ink: #050609;
+  --deck-panel: #101418;
+  --deck-signal: #76d8cf;
+  --deck-warm: #ff8f70;
+  --deck-grid: rgba(255, 255, 255, 0.075);
+}
+
+.reveal {
+  --at-text: #f3f2ed;
+  --at-text-secondary: #b7c1be;
+  --at-border: rgba(243, 242, 237, 0.22);
+  color: var(--at-text);
+  background-color: var(--deck-ink);
+  background-image:
+    linear-gradient(var(--deck-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--deck-grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
 .reveal .slides section {
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 76px 84px 70px;
   text-align: left;
 }
 
-.reveal .slides section.impact {
-  text-align: center;
+.reveal .slides section::after {
+  position: absolute;
+  right: 84px;
+  bottom: 34px;
+  left: 84px;
+  height: 1px;
+  background: color-mix(in srgb, var(--at-primary) 42%, transparent);
+  content: "";
 }
 
 .reveal h1,
-.reveal h2 {
-  max-width: 18ch;
+.reveal h2,
+.reveal h3,
+.reveal p {
+  letter-spacing: 0;
 }
 
+.reveal h1 {
+  max-width: 13ch;
+  margin: 0 0 0.28em;
+  font-size: 82px;
+  line-height: 0.98;
+}
+
+.reveal h2 {
+  max-width: 18ch;
+  margin: 0 0 0.55em;
+  font-size: 58px;
+  line-height: 1.02;
+}
+
+.reveal h3,
+.reveal .panel-title {
+  margin-block: 0 0.35em;
+  color: var(--deck-signal);
+  font-size: 28px;
+  font-weight: 750;
+}
+
+.reveal p,
+.reveal li {
+  font-size: 34px;
+  line-height: 1.28;
+}
+
+.reveal p {
+  max-width: 34ch;
+}
+
+.reveal strong { color: var(--at-primary); }
+.reveal a { color: var(--deck-signal); text-underline-offset: 0.16em; }
+
 .reveal code {
+  padding: 0.12em 0.28em;
   border: 1px solid var(--at-border);
-  padding: 0.15em 0.3em;
+  background: var(--deck-panel);
+}
+
+.reveal blockquote {
+  width: auto;
+  margin: 0.7em 0;
+  padding: 0.65em 0.8em;
+  border: 0;
+  border-inline-start: 6px solid var(--at-primary);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+  font-style: normal;
+}
+
+.reveal blockquote p { margin: 0; font-size: 34px; }
+
+.reveal .slides section.impact {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.reveal .slides section.impact::before {
+  position: absolute;
+  top: 50%;
+  right: 80px;
+  width: 330px;
+  height: 330px;
+  border: 1px solid color-mix(in srgb, var(--deck-signal) 50%, transparent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 54px color-mix(in srgb, var(--deck-signal) 8%, transparent),
+    0 0 0 108px color-mix(in srgb, var(--at-primary) 6%, transparent);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.reveal .slides section.impact h1,
+.reveal .slides section.impact h2,
+.reveal .slides section.impact p {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+}
+
+.reveal .eyebrow,
+.reveal .source-note,
+.reveal .axis-label,
+.reveal .unit {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.reveal .eyebrow {
+  margin: 0 0 1em;
+  color: var(--at-primary);
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.reveal .lede {
+  max-width: 27ch;
+  color: var(--at-text-secondary);
+  font-size: 40px;
+  line-height: 1.2;
+}
+
+.reveal .deck-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.reveal .deck-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.reveal .panel,
+.reveal .metric,
+.reveal .choice {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 24px 26px;
+  border: 1px solid var(--at-border);
+  border-top: 4px solid var(--deck-signal);
+  background: color-mix(in srgb, var(--deck-panel) 90%, transparent);
+}
+
+.reveal .panel.gold,
+.reveal .metric.gold,
+.reveal .choice.gold { border-top-color: var(--at-primary); }
+
+.reveal .panel.warm,
+.reveal .metric.warm,
+.reveal .choice.warm { border-top-color: var(--deck-warm); }
+
+.reveal .panel p,
+.reveal .panel li,
+.reveal .choice p {
+  margin-block: 0.2em;
+  font-size: 27px;
+  line-height: 1.25;
+}
+
+.reveal .panel .panel-title,
+.reveal .choice .panel-title,
+.reveal .lab-brief .panel-title {
+  margin: 0 0 0.35em;
+  color: var(--deck-signal);
+  font-size: 28px;
+}
+
+.reveal .panel ul { margin: 0.45em 0 0; }
+
+.reveal .metric strong {
+  display: block;
+  margin-bottom: 0.12em;
+  color: var(--at-text);
+  font-size: 56px;
+  line-height: 1;
+}
+
+.reveal .metric span,
+.reveal .choice span {
+  display: block;
+  color: var(--at-text-secondary);
+  font-size: 23px;
+  line-height: 1.25;
+}
+
+.reveal .process-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 38px;
+  counter-reset: flow;
+}
+
+.reveal .process-flow > div {
+  position: relative;
+  min-height: 170px;
+  padding: 58px 20px 20px;
+  border: 1px solid var(--at-border);
+  background: var(--deck-panel);
+  counter-increment: flow;
+}
+
+.reveal .process-flow > div::before {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  color: var(--at-primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 20px;
+  content: "0" counter(flow);
+}
+
+.reveal .process-flow strong,
+.reveal .process-flow span { display: block; }
+.reveal .process-flow strong { color: var(--at-text); font-size: 27px; }
+
+.reveal .process-flow span {
+  margin-top: 0.4em;
+  color: var(--at-text-secondary);
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.reveal .instrument-plot {
+  position: relative;
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  box-sizing: border-box;
+  height: 290px;
+  margin-top: 22px;
+  padding: 24px 24px 42px 64px;
+  border: 1px solid var(--at-border);
+  border-left: 2px solid var(--at-text-secondary);
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.reveal .instrument-plot::after {
+  position: absolute;
+  right: 24px;
+  bottom: 41px;
+  left: 63px;
+  height: 2px;
+  background: var(--at-text-secondary);
+  content: "";
+}
+
+.reveal .instrument-plot .sample {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  height: calc(var(--v) * 1%);
+  min-height: 4px;
+  background: var(--deck-signal);
+  transform-origin: bottom;
+}
+
+.reveal .instrument-plot .sample.alert { background: var(--deck-warm); }
+.reveal .instrument-plot .sample.gold { background: var(--at-primary); }
+
+.reveal .axis-label {
+  position: absolute;
+  color: var(--at-text-secondary);
+  font-size: 16px;
+}
+
+.reveal .axis-label.x { right: 22px; bottom: 12px; }
+.reveal .axis-label.y { top: 14px; left: 16px; }
+
+.reveal .mapping-table {
+  width: 100%;
+  margin-top: 24px;
+  border-collapse: collapse;
+  font-size: 25px;
+}
+
+.reveal .mapping-table th,
+.reveal .mapping-table td {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--at-border);
+  text-align: left;
+}
+
+.reveal .mapping-table th {
+  color: var(--at-primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.reveal .mapping-table td:first-child { color: var(--deck-signal); font-weight: 700; }
+
+.reveal .signal-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 120px;
+  margin: 24px 0;
+  padding: 20px 24px;
+  border: 1px solid var(--at-border);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.reveal .signal-track i {
+  display: block;
+  width: 8px;
+  height: calc(var(--v) * 1px);
+  min-height: 8px;
+  background: var(--deck-signal);
+}
+
+.reveal .signal-track i.alert { background: var(--deck-warm); }
+
+.reveal .spectrum-strip {
+  height: 74px;
+  margin: 24px 0;
+  border: 1px solid var(--at-border);
+  background: linear-gradient(90deg, #692f8f, #235cc6, #4fb8b0, #e0b849, #e06b4f);
+}
+
+.reveal .question {
+  max-width: 26ch;
+  margin-top: 0.7em;
+  padding-inline-start: 0.7em;
+  border-inline-start: 6px solid var(--deck-warm);
+  font-size: 42px;
+  line-height: 1.16;
+}
+
+.reveal .source-note {
+  position: absolute;
+  right: 84px;
+  bottom: 43px;
+  z-index: 1;
+  max-width: 54ch;
+  margin: 0;
+  color: var(--at-text-secondary);
+  font-size: 15px;
+  text-align: right;
+}
+
+.reveal .lab-brief {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 30px;
+  margin-top: 28px;
+}
+
+.reveal .lab-brief > div {
+  padding: 28px;
+  border: 1px solid var(--at-border);
+  background: var(--deck-panel);
+}
+
+.reveal .lab-brief p,
+.reveal .lab-brief li { font-size: 26px; }
+
+.reveal .slides section.compact p,
+.reveal .slides section.compact li { font-size: 30px; line-height: 1.18; }
+.reveal .slides section.compact h2 { font-size: 52px; }
+.reveal .slides section.dense p,
+.reveal .slides section.dense li { font-size: 27px; line-height: 1.12; }
+.reveal .slides section.dense h2 { font-size: 47px; }
+
+.reveal .slides section.present .instrument-plot .sample {
+  animation: sample-rise 650ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes sample-rise {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
 }
 
 @media (max-width: 600px) {
-  .reveal .slides p,
-  .reveal .slides li {
-    font-size: 46px;
-    line-height: 1.2;
-  }
-
-  .reveal .slides h1 {
-    font-size: 84px;
-  }
-
-  .reveal .slides h2 {
-    font-size: 68px;
-  }
-
+  .reveal .slides section { padding: 64px 72px; }
+  .reveal h1 { font-size: 76px; }
+  .reveal h2 { font-size: 54px; }
+  .reveal p,
+  .reveal li { font-size: 38px; line-height: 1.18; }
+  .reveal .lede { font-size: 40px; }
+  .reveal .panel p,
+  .reveal .panel li,
+  .reveal .choice p { font-size: 32px; }
+  .reveal .panel .panel-title,
+  .reveal .choice .panel-title,
+  .reveal .lab-brief .panel-title { font-size: 32px; }
+  .reveal .metric span,
+  .reveal .choice span { font-size: 28px; }
+  .reveal .process-flow strong { font-size: 30px; }
+  .reveal .process-flow span { font-size: 26px; }
+  .reveal .mapping-table { font-size: 29px; }
+  .reveal .mapping-table th { font-size: 22px; }
+  .reveal .lab-brief p,
+  .reveal .lab-brief li { font-size: 30px; }
+  .reveal .source-note { font-size: 17px; }
   .reveal .slides section.compact p,
-  .reveal .slides section.compact li {
-    font-size: 36px;
-    line-height: 1.15;
-  }
-
-  .reveal .slides section.compact h2 {
-    font-size: 60px;
-  }
-
+  .reveal .slides section.compact li { font-size: 32px; line-height: 1.14; }
+  .reveal .slides section.compact h2 { font-size: 50px; }
   .reveal .slides section.dense p,
-  .reveal .slides section.dense li {
-    font-size: 32px;
-    line-height: 1.12;
-  }
+  .reveal .slides section.dense li { font-size: 29px; line-height: 1.1; }
+  .reveal .slides section.dense h2 { font-size: 46px; }
+  .reveal .slides section.disclosure ul { columns: 2; column-gap: 2em; }
+  .reveal .slides section.impact::before { width: 260px; height: 260px; }
+}
 
-  .reveal .slides section.dense h2 {
-    font-size: 54px;
-  }
-
-  .reveal .slides section.disclosure ul {
-    columns: 2;
-    column-gap: 2em;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section.present .instrument-plot .sample { animation: none; }
 }

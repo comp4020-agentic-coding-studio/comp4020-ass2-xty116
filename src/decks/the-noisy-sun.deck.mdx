@@ -1,79 +1,121 @@
 ---
 title: The noisy Sun
-description: Reading a solar radio dynamic spectrum without deleting ambiguity
+description: Reading solar radio dynamic spectra while preserving interference, gaps and ambiguity
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 05 · Time–frequency data</p>
+
 # The noisy Sun
 
-## Signal, interference, or not enough evidence?
-
-SLOP3255 · Week 5
+<p className="lede">A bright streak can be a solar burst, local interference, an instrument effect—or not enough evidence.</p>
 
 ---
 
 ## A dynamic spectrum has three variables
 
-Horizontal position: time
+<div className="deck-grid three">
+  <div className="metric gold"><strong>x</strong><span>observation time</span></div>
+  <div className="metric"><strong>y</strong><span>radio frequency channel</span></div>
+  <div className="metric warm"><strong>colour</strong><span>received power or intensity</span></div>
+</div>
 
-Vertical position: radio frequency
-
-Pixel intensity or colour: measured power
-
-A sonification must turn this two-dimensional field into a temporal experience.
+Audio unfolds in one time dimension. We must decide how the second axis enters the listening experience.
 
 ---
 
-## The scan path writes the timeline
+## Read the picture before mapping it
 
-Left to right preserves observation time.
+<div className="deck-grid three">
+  <div className="panel gold"><p className="panel-title">High radio frequency</p><div className="spectrum-strip"></div></div>
+  <div className="panel"><p className="panel-title">Middle radio frequency</p><div className="spectrum-strip"></div></div>
+  <div className="panel warm"><p className="panel-title">Low radio frequency</p><div className="spectrum-strip"></div></div>
+</div>
 
-Bottom to top compares frequency at one moment.
-
-A raster scan traverses every cell but may take too long.
-
-The scan path is not part of the Sun. It is an interface decision.
+Ask whether a feature is narrowband, broadband, vertical, drifting or persistent. Geometry suggests—but does not prove—cause.
 
 ---
 
 {/* _class: compact */}
+
+## Different shapes imply different questions
+
+<table className="mapping-table">
+  <thead><tr><th>Visible pattern</th><th>Possible reading</th><th>Auditory test</th></tr></thead>
+  <tbody>
+    <tr><td>fast frequency drift</td><td>changing emission region</td><td>does pitch sweep over time?</td></tr>
+    <tr><td>vertical broadband line</td><td>short event or impulsive RFI</td><td>does it appear across channels together?</td></tr>
+    <tr><td>persistent narrow band</td><td>local transmitter candidate</td><td>does one pitch remain fixed?</td></tr>
+    <tr><td>blank rectangle</td><td>missing data or receiver state</td><td>is absence explicitly marked?</td></tr>
+  </tbody>
+</table>
+
+Pattern recognition generates hypotheses. Metadata and comparison test them.
+
+---
 
 ## Not every bright feature is solar
 
-Ground-based radio data may contain:
+<div className="deck-grid">
+  <div className="panel warm"><p className="panel-title">Radio-frequency interference</p><ul><li>may remain at fixed local frequencies</li><li>may begin or end abruptly</li><li>can overwhelm astrophysical structure</li></ul></div>
+  <div className="panel gold"><p className="panel-title">Solar candidate</p><ul><li>compares across observatories</li><li>fits plausible drift behaviour</li><li>survives instrument-quality checks</li></ul></div>
+</div>
 
-- narrow terrestrial transmitters
-- broadband interference
-- receiver drift
-- unavailable channels
-- calibration artefacts
-
-Unknown remains a valid label.
+The sonification should not turn a classification guess into certainty.
 
 ---
 
-{/* _class: compact */}
+## Three routes through the same matrix
+
+<div className="process-flow">
+  <div><strong>Rows</strong><span>Hear one frequency channel over time.</span></div>
+  <div><strong>Columns</strong><span>Hear the spectrum at each time step.</span></div>
+  <div><strong>Peaks</strong><span>Track only strongest energy by time.</span></div>
+  <div><strong>Layers</strong><span>Assign bands to distinct timbres.</span></div>
+</div>
+
+Each route discards structure. The legend must say which structure survives.
+
+---
 
 ## Silence can mislead
 
-Removing a flagged cell may sound like a measured zero.
+<div className="deck-grid three">
+  <div className="choice gold"><p className="panel-title">Zero</p><p>The instrument measured no signal above its defined baseline.</p></div>
+  <div className="choice warm"><p className="panel-title">Missing</p><p>No valid measurement exists for this interval.</p></div>
+  <div className="choice"><p className="panel-title">Muted</p><p>The designer chose not to render a valid value.</p></div>
+</div>
 
-Better options include:
+These states may all sound quiet, but they make different claims.
 
-- a separate noise cue
-- spoken quality flags
-- an explicit gap
-- parallel clean and unclean versions
+---
 
-The listener needs to know what was absent and what was removed.
+## Make the quality channel audible
+
+<table className="mapping-table">
+  <thead><tr><th>Data state</th><th>Primary sound</th><th>Quality cue</th></tr></thead>
+  <tbody>
+    <tr><td>valid sample</td><td>mapped tone</td><td>none</td></tr>
+    <tr><td>suspected RFI</td><td>mapped tone</td><td>dry click or timbre marker</td></tr>
+    <tr><td>missing interval</td><td>no mapped tone</td><td>explicit gap cue</td></tr>
+    <tr><td>clipped receiver</td><td>bounded tone</td><td>warning layer</td></tr>
+  </tbody>
+</table>
+
+Quality should not compete with the main scientific pattern, but it cannot disappear.
 
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">Listening Lab 05 · Output: classification card</p>
+
 # Noise or event?
 
-Annotate before you sonify.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Compare three synthetic dynamic spectra and their row-scan audio. Classify each feature with a confidence level.</p></div>
+  <div><p className="panel-title">Evidence</p><ul><li>shape</li><li>quality flags</li><li>cross-station check</li></ul></div>
+</div>
 
-Keep time, frequency, intensity and quality flags separate.
+<p className="source-note">Reference: CSIRO Space Weather Services · solar radio observations</p>

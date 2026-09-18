@@ -5,81 +5,121 @@ description: Following measurement, calibration, reduction and playback as one p
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 02 · Provenance</p>
+
 # From telescope to speaker
 
-## Every arrow is a decision
-
-SLOP3255 · Week 2
+<p className="lede">A sonification is only as trustworthy as the chain of decisions behind it.</p>
 
 ---
-
-{/* _class: compact */}
 
 ## A telescope does not hand us meaning
 
-An instrument produces counts, voltages, arrival times or pixels.
+<div className="deck-grid three">
+  <div className="metric gold"><strong>counts</strong><span>detector response before physical calibration</span></div>
+  <div className="metric"><strong>time</strong><span>exposure, cadence, gaps and clock standard</span></div>
+  <div className="metric warm"><strong>context</strong><span>weather, pointing, comparison source and quality flags</span></div>
+</div>
 
-Those values depend on:
+The “raw data” already belongs to an instrument, a place and a measurement protocol.
 
-- detector response
-- exposure and sampling
-- calibration references
-- observing conditions
+---
 
-The “data” already has a history.
+## The complete route
+
+<div className="process-flow">
+  <div><strong>Detect</strong><span>Photons become charge, counts or voltage.</span></div>
+  <div><strong>Calibrate</strong><span>Correct known detector and observing effects.</span></div>
+  <div><strong>Reduce</strong><span>Derive the quantity the scientific claim needs.</span></div>
+  <div><strong>Present</strong><span>Select, scale and map the result to sound.</span></div>
+</div>
+
+Each stage changes the object. Provenance is the record of those changes.
 
 ---
 
 {/* _class: compact */}
 
-## Reduction makes a claim possible
+## Calibration is not cosmetic
 
-Raw detector images
+<table className="mapping-table">
+  <thead><tr><th>Correction</th><th>Problem addressed</th><th>If omitted</th></tr></thead>
+  <tbody>
+    <tr><td>Bias / dark</td><td>electronic offset and thermal signal</td><td>baseline drifts upward</td></tr>
+    <tr><td>Flat field</td><td>uneven pixel sensitivity</td><td>position looks like brightness</td></tr>
+    <tr><td>Reference star</td><td>changing atmosphere</td><td>cloud can resemble a transit</td></tr>
+    <tr><td>Time standard</td><td>clock and location differences</td><td>events cannot be aligned</td></tr>
+  </tbody>
+</table>
 
-→ subtract bias and dark signal  
-→ apply flat-field correction  
-→ measure a target against references  
-→ attach time and units  
-→ produce a light curve
-
-Reduction is necessary. It is not invisible.
-
----
-
-{/* _class: compact */}
-
-## Then presentation begins
-
-Scientific preparation and auditory presentation are separate layers.
-
-**Preparation:** calibration, quality flags, derived quantities  
-**Presentation:** window selection, normalisation, mapping, playback speed
-
-Both must be documented, but they answer different questions.
+Calibration makes comparison possible; it does not make the result neutral.
 
 ---
 
-{/* _class: compact */}
+## Preparation and presentation are different layers
+
+<div className="deck-grid">
+  <div className="panel gold"><p className="panel-title">Scientific preparation</p><ul><li>calibration</li><li>quality flags</li><li>background subtraction</li><li>derived quantities</li></ul></div>
+  <div className="panel"><p className="panel-title">Auditory presentation</p><ul><li>window selection</li><li>normalisation</li><li>mapping range</li><li>playback speed</li></ul></div>
+</div>
+
+Document both layers, because they answer different questions.
+
+---
 
 ## A minimum provenance record
 
-- source institution and dataset identifier
-- retrieval date and licence
-- original and derived units
-- removed, filled or flagged values
-- scale and range of every sound mapping
-- software and version
+<table className="mapping-table">
+  <thead><tr><th>Field</th><th>Example entry</th></tr></thead>
+  <tbody>
+    <tr><td>Source</td><td>institution + dataset identifier + retrieval date</td></tr>
+    <tr><td>Selection</td><td>object, channel, time interval, exclusions</td></tr>
+    <tr><td>Operations</td><td>calibration, filtering, filling, normalisation</td></tr>
+    <tr><td>Mapping</td><td>input units and output range for every sound dimension</td></tr>
+    <tr><td>Software</td><td>tool, version and reproducible parameters</td></tr>
+  </tbody>
+</table>
 
-Another person should be able to retrace the route.
+Another person should be able to retrace the route without guessing.
+
+---
+
+## The polished-output trap
+
+<div className="deck-grid">
+  <div className="choice warm"><p className="panel-title">Beautiful but opaque</p><p>A smooth melody, no units, no missing values and no description of filtering.</p><span>The listener cannot separate signal from design.</span></div>
+  <div className="choice gold"><p className="panel-title">Inspectable</p><p>Audio beside values, plot, operations and a plain-language claim.</p><span>The experience survives scrutiny.</span></div>
+</div>
+
+<p className="question">What single missing field would most change your interpretation?</p>
+
+---
+
+{/* _class: compact */}
+
+## Worked case: a small transit study
+
+<div className="instrument-plot" role="img" aria-label="Synthetic target and reference brightness both vary, while their ratio contains a central dip">
+  <span className="axis-label y">relative flux</span>
+  <span className="sample" style="--v:83"></span><span className="sample" style="--v:87"></span><span className="sample" style="--v:92"></span><span className="sample gold" style="--v:78"></span><span className="sample alert" style="--v:59"></span><span className="sample gold" style="--v:76"></span><span className="sample" style="--v:91"></span><span className="sample" style="--v:95"></span>
+  <span className="axis-label x">calibrated sample →</span>
+</div>
+
+The sonification should receive the **calibrated target/reference ratio**, not arbitrary camera brightness. Its legend names that distinction.
+
+<p className="source-note">Reference workflow: NASA Exoplanet Watch</p>
 
 ---
 
 {/* _class: impact */}
 
-# Listening Lab
+<p className="eyebrow">Listening Lab 02 · Output: provenance diagram</p>
 
-Reassemble a shuffled signal chain.
+# Reassemble the chain
 
-Mark each arrow as **measurement**, **reduction** or **presentation**.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Put twelve shuffled operations between telescope and speaker. Mark each as measurement, calibration, reduction or presentation.</p></div>
+  <div><p className="panel-title">Test</p><ul><li>every arrow has an owner</li><li>units survive each stage</li><li>one uncertainty is visible</li></ul></div>
+</div>
 
-[NASA Exoplanet Watch](https://science.nasa.gov/citizen-science/exoplanet-watch/)
+<p className="source-note">Reference: NASA Exoplanet Watch · science.nasa.gov/citizen-science/exoplanet-watch/</p>

@@ -5,110 +5,90 @@ description: A traceable journey from interferometer strain to an audible GW1509
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 06 · Audification</p>
+
 # The gravitational-wave chirp
 
-## The sound is a transformation
-
-SLOP3255 · Week 6
+<p className="lede">The rising pattern belongs to the event. The playback volume, filtering and pitch range belong to the rendering.</p>
 
 ---
 
-## Start with a claim
+## Start with the measured claim
 
-On 14 September 2015, LIGO's two detectors observed a signal consistent with
-the merger of two black holes.
+<div className="deck-grid three">
+  <div className="metric gold"><strong>2015</strong><span>GW150914 observed on 14 September</span></div>
+  <div className="metric"><strong>2</strong><span>LIGO detectors recorded a consistent signal</span></div>
+  <div className="metric warm"><strong>strain</strong><span>relative change in interferometer arm length</span></div>
+</div>
 
-The event is **GW150914**.
+The detector output is a calibrated time series, not a microphone recording.
 
-The detector output is strain over time, not a microphone recording.
-
----
-
-{/* _class: compact */}
-
-## The measured object
-
-**Strain** is relative change in arm length.
-
-The signal is:
-
-- very small
-- mixed with detector noise
-- time-indexed
-- independently observed at two sites
-
-The useful question is not “what did space sound like?” but “what operations
-make this strain pattern audible?”
+<p className="source-note">Source: LIGO GW150914 event record</p>
 
 ---
 
-## Why a chirp?
+## From arm length to event window
 
-As the black holes spiral together:
+<div className="process-flow">
+  <div><strong>Interfere light</strong><span>Compare two perpendicular arms.</span></div>
+  <div><strong>Calibrate</strong><span>Convert detector response to strain.</span></div>
+  <div><strong>Compare sites</strong><span>Check time and signal consistency.</span></div>
+  <div><strong>Select window</strong><span>Place the event beside nearby noise.</span></div>
+</div>
 
-1. their orbital frequency rises
-2. the gravitational-wave frequency rises
-3. the signal amplitude grows
-4. merger ends the rising pattern
-
-Frequency increase belongs to the event. Playback volume does not.
+The signal is extremely small and always encountered inside detector noise.
 
 ---
 
-## The signal chain
+## Why it is called a chirp
 
-**interferometer strain**
+<div className="instrument-plot" role="img" aria-label="Signal amplitude and frequency rise toward a sharp merger peak, then end">
+  <span className="axis-label y">relative amplitude</span>
+  <span className="sample" style="--v:9"></span><span className="sample" style="--v:12"></span><span className="sample" style="--v:16"></span><span className="sample" style="--v:23"></span><span className="sample gold" style="--v:34"></span><span className="sample gold" style="--v:49"></span><span className="sample alert" style="--v:72"></span><span className="sample alert" style="--v:100"></span><span className="sample" style="--v:18"></span>
+  <span className="axis-label x">time toward merger →</span>
+</div>
 
-→ calibration  
-→ band-pass and noise treatment  
-→ event window  
-→ amplitude scaling  
-→ optional frequency shift  
-→ speaker
-
-Every arrow changes what can be heard.
+As the black holes spiral together, gravitational-wave frequency and amplitude rise. Merger ends the rising pattern.
 
 ---
 
 {/* _class: compact */}
 
-## Three versions, three claims
+## Three renderings, three claims
 
-**Raw window**  
-Closest to the calibrated series; difficult to hear.
-
-**Filtered and amplified**  
-Pattern is clearer; filtering must be disclosed.
-
-**Frequency shifted**  
-Easier for some listeners; pitch no longer occupies the measured band.
+<table className="mapping-table">
+  <thead><tr><th>Rendering</th><th>Operation</th><th>Consequence</th></tr></thead>
+  <tbody>
+    <tr><td>Calibrated window</td><td>direct playback path</td><td>closest to timing, difficult to hear</td></tr>
+    <tr><td>Filtered + amplified</td><td>reduce selected noise bands</td><td>pattern clearer, context altered</td></tr>
+    <tr><td>Frequency shifted</td><td>move spectrum upward</td><td>audible detail, measured band changed</td></tr>
+  </tbody>
+</table>
 
 Clarity and fidelity are related, not identical.
 
 ---
 
-## Inspect more than audio
+## Two detectors are part of the evidence
 
-A responsible presentation pairs sound with:
+<div className="deck-grid">
+  <div className="panel gold"><p className="panel-title">Hanford</p><p>One strain series, local detector noise and quality state.</p></div>
+  <div className="panel"><p className="panel-title">Livingston</p><p>A second series with compatible event timing and shape.</p></div>
+</div>
 
-- strain values and units
-- a time-domain plot
-- a spectrogram
-- processing parameters
-- detector and event provenance
-
-No channel has to carry the whole argument.
+Hearing only a polished combined chirp removes the cross-site comparison that helped support the detection.
 
 ---
 
-## What uncertainty sounds like
+## Let noise remain visible
 
-Noise is not an embarrassing border around the signal.
+<div className="deck-grid three">
+  <div className="choice warm"><p className="panel-title">Before</p><p>nearby detector noise</p></div>
+  <div className="choice gold"><p className="panel-title">During</p><p>candidate event window</p></div>
+  <div className="choice"><p className="panel-title">After</p><p>return to local noise</p></div>
+</div>
 
-It is part of the detection problem.
-
-Compare the event window with nearby detector data. Ask which features persist,
-which disappear after filtering and which cannot be assigned confidently.
+Compare all three. Ask which features persist after processing and which depend on a chosen filter.
 
 ---
 
@@ -116,27 +96,30 @@ which disappear after filtering and which cannot be assigned confidently.
 
 ## Disclosure before drama
 
-Before publishing, name:
+<table className="mapping-table">
+  <thead><tr><th>Publish</th><th>Name precisely</th></tr></thead>
+  <tbody>
+    <tr><td>source</td><td>detector, event identifier, retrieval date</td></tr>
+    <tr><td>selection</td><td>time window and quality exclusions</td></tr>
+    <tr><td>processing</td><td>filters, thresholds and amplitude scaling</td></tr>
+    <tr><td>playback</td><td>speed and frequency changes</td></tr>
+    <tr><td>additions</td><td>any music, reverb or spatialisation</td></tr>
+  </tbody>
+</table>
 
-- source and retrieval date
-- selected time interval
-- filters and thresholds
-- speed or frequency changes
-- amplitude normalisation
-- omitted or interpolated data
-- added musical material
-
-If a listener cannot reconstruct the operation, the legend is incomplete.
+If the operation cannot be reconstructed, the legend is incomplete.
 
 ---
 
 {/* _class: impact */}
 
-# Listening Lab
+<p className="eyebrow">Listening Lab 06 · Output: processing ladder</p>
 
-Can you order three renderings by processing intensity?
+# Order the chirps
 
-Then use the spectrograms to explain where your ears were right — and where
-they were persuaded.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Order three GW150914 renderings by processing intensity, then justify the order with their spectrograms.</p></div>
+  <div><p className="panel-title">Deliver</p><ul><li>operation list</li><li>audible evidence</li><li>bounded claim</li></ul></div>
+</div>
 
-[GW150914 event record](https://ligo.org/detections/gw150914/)
+<p className="source-note">Reference: LIGO · ligo.org/detections/gw150914/</p>

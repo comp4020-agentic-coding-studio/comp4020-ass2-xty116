@@ -1,77 +1,116 @@
 ---
 title: The clocks of pulsars
-description: Reading periodic radio signals without adding a musical clock
+description: Hearing periodic arrival data without erasing dispersion, folding and timing uncertainty
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 04 · Periodic signals</p>
+
 # The clocks of pulsars
 
-## Regular does not mean metronomic
+<p className="lede">A pulse train sounds simple. The journey from rotating neutron star to folded profile is not.</p>
 
-SLOP3255 · Week 4
+---
+
+## One object, three clocks
+
+<div className="deck-grid three">
+  <div className="panel gold"><p className="panel-title">Rotation</p><p>A neutron star turns, sweeping a beam across space.</p></div>
+  <div className="panel"><p className="panel-title">Arrival</p><p>A telescope timestamps energy received at Earth.</p></div>
+  <div className="panel warm"><p className="panel-title">Playback</p><p>A designer chooses audio speed, grouping and emphasis.</p></div>
+</div>
+
+Only the first two clocks belong to the astronomical measurement. The third belongs to us.
 
 ---
 
 ## What arrives at the telescope?
 
-A rotating neutron star can sweep radio emission across Earth.
+<div className="signal-track" role="img" aria-label="A nearly regular train of eight pulses with one slightly delayed pulse">
+  <i style="--v:42"></i><i style="--v:75"></i><i style="--v:50"></i><i style="--v:88"></i><i className="alert" style="--v:57"></i><i style="--v:80"></i><i style="--v:46"></i><i style="--v:73"></i>
+</div>
 
-The telescope records radio intensity over time.
-
-The series also contains receiver noise, background emission and propagation
-effects.
-
-The pulse is inferred from repeated structure.
-
----
-
-## Folding reveals the profile
-
-Choose a candidate period.
-
-Divide the time series into equal periods.
-
-Align and combine corresponding phases.
-
-The result is a pulse profile built from many rotations — not one pristine
-pulse.
-
----
-
-## Two honest renderings
-
-**Audify timing**  
-Compress the time axis and preserve relative arrival intervals.
-
-**Trigger events**  
-Play one cue when a pulse crosses a stated threshold.
-
-A drum grid or harmony can be added, but then it belongs to the designer.
+Individual pulses vary. Noise can be larger than a single pulse. The stable quantity is often recovered statistically across many rotations.
 
 ---
 
 {/* _class: compact */}
 
+## Interstellar space delays radio pulses
+
+<table className="mapping-table">
+  <thead><tr><th>Frequency channel</th><th>Relative arrival</th><th>Before folding</th></tr></thead>
+  <tbody>
+    <tr><td>high radio frequency</td><td>earlier</td><td>align to reference time</td></tr>
+    <tr><td>middle channel</td><td>later</td><td>remove predicted delay</td></tr>
+    <tr><td>low radio frequency</td><td>latest</td><td>remove larger delay</td></tr>
+  </tbody>
+</table>
+
+This frequency-dependent delay is **dispersion**. Dedispersion is a scientific operation, not audio polishing.
+
+---
+
+## Folding reveals the profile
+
+<div className="process-flow">
+  <div><strong>Guess period</strong><span>Choose a trial rotation length.</span></div>
+  <div><strong>Cut</strong><span>Divide the time series into rotations.</span></div>
+  <div><strong>Align</strong><span>Place equal phase positions together.</span></div>
+  <div><strong>Average</strong><span>Strengthen the repeated profile.</span></div>
+</div>
+
+Folding reveals repetition by discarding the identity of individual rotations.
+
+---
+
+## The folded profile is not a pulse recording
+
+<div className="instrument-plot" role="img" aria-label="A folded pulse profile with a small precursor and one strong central peak">
+  <span className="axis-label y">mean intensity</span>
+  <span className="sample" style="--v:8"></span><span className="sample" style="--v:11"></span><span className="sample gold" style="--v:26"></span><span className="sample gold" style="--v:19"></span><span className="sample alert" style="--v:92"></span><span className="sample gold" style="--v:43"></span><span className="sample" style="--v:15"></span><span className="sample" style="--v:9"></span>
+  <span className="axis-label x">rotation phase →</span>
+</div>
+
+It is an average shape by phase. A sonification must say whether it plays arrivals, rotations or the folded profile.
+
+---
+
 ## What folding removes
 
-Averaging strengthens the repeated profile.
+<div className="deck-grid">
+  <div className="panel warm"><p className="panel-title">Hidden by averaging</p><ul><li>pulse-to-pulse variation</li><li>rare bright pulses</li><li>short interference</li></ul></div>
+  <div className="panel gold"><p className="panel-title">Made visible</p><ul><li>stable phase structure</li><li>weak repeated components</li><li>profile comparison</li></ul></div>
+</div>
 
-It can suppress:
+The operation is valuable because it changes the question.
 
-- pulse-to-pulse variation
-- transient interference
-- timing irregularity
-- uncertainty about weak pulses
+---
 
-Clarity always has a cost.
+## Timing residuals are the next signal
+
+Observed arrival time − predicted arrival time = **residual**.
+
+<div className="deck-grid three">
+  <div className="metric gold"><strong>0</strong><span>model and observation agree</span></div>
+  <div className="metric"><strong>trend</strong><span>period or position model may be incomplete</span></div>
+  <div className="metric warm"><strong>jump</strong><span>event, clock issue or data-quality problem</span></div>
+</div>
+
+Sonifying residuals shifts attention from pulse rhythm to model error.
 
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">Listening Lab 04 · Output: folded profile</p>
+
 # Fold a pulsar
 
-State the catalogue source, period and every timing change.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Find the period of a noisy synthetic pulse train, fold it and compare arrival-time audio with profile audio.</p></div>
+  <div><p className="panel-title">Explain</p><ul><li>what was aligned</li><li>what averaging removed</li><li>which audio answers which question</li></ul></div>
+</div>
 
-[ATNF Pulsar Catalogue](https://www.atnf.csiro.au/research/pulsar/psrcat/)
+<p className="source-note">Reference: CSIRO Parkes Pulsar Timing Array · research.csiro.au/ppta/</p>

@@ -1,79 +1,160 @@
 ---
 title: Can space be heard?
-description: Distinguishing physical sound, audification and parameter-mapped sonification
+description: Separating physical sound, measured signal and designed sonification
 ---
 
 {/* _class: impact */}
 
+<p className="eyebrow">SLOP3255 · Week 01 · Listening claim 001</p>
+
 # Can space be heard?
 
-## Three different claims hide inside one question
-
-SLOP3255 · Week 1
+<p className="lede">Before we make the universe audible, we have to say what kind of “hearing” we mean.</p>
 
 ---
 
-## Sound needs a medium
+## One question, three claims
 
-Pressure waves travel through matter.
+<div className="deck-grid three">
+  <div className="panel gold">
+    <p className="panel-title">Physical sound</p>
+    <p>Pressure waves moving through matter. A medium is required.</p>
+  </div>
+  <div className="panel">
+    <p className="panel-title">Measured signal</p>
+    <p>Voltage, photon count, strain or intensity recorded by an instrument.</p>
+  </div>
+  <div className="panel warm">
+    <p className="panel-title">Sonification</p>
+    <p>A designed mapping that turns values or events into audible parameters.</p>
+  </div>
+</div>
 
-Most of the space between astronomical objects cannot carry sound to a
-microphone.
+<p className="question">Which claim is being made when a headline says “NASA recorded the sound of space”?</p>
 
-Telescopes usually collect electromagnetic radiation, particles or changes in
-an instrument — not an acoustic performance.
+---
+
+## Vacuum is not silence
+
+<div className="deck-grid three">
+  <div className="metric gold"><strong>0</strong><span>air molecules available to carry ordinary pressure waves in an ideal vacuum</span></div>
+  <div className="metric"><strong>many</strong><span>measurable electromagnetic, particle and gravitational signals</span></div>
+  <div className="metric warm"><strong>1+</strong><span>design decisions needed before those signals reach a speaker</span></div>
+</div>
+
+Space is not empty of **information**. It is usually empty of the medium our ears expect.
 
 ---
 
 {/* _class: compact */}
 
-## Three ways data reaches a speaker
+## What does a telescope actually return?
 
-**Recording**  
-A microphone measures pressure over time.
+<table className="mapping-table">
+  <thead><tr><th>Instrument</th><th>Recorded object</th><th>Possible audible dimension</th></tr></thead>
+  <tbody>
+    <tr><td>Optical camera</td><td>pixel intensity</td><td>pitch or loudness</td></tr>
+    <tr><td>Radio dish</td><td>power by frequency and time</td><td>timbre + playback time</td></tr>
+    <tr><td>Pulsar backend</td><td>pulse arrival times</td><td>rhythm</td></tr>
+    <tr><td>Interferometer</td><td>strain over time</td><td>audification or pitch shift</td></tr>
+  </tbody>
+</table>
 
-**Audification**  
-A measured time series is replayed, often shifted into hearing range.
-
-**Parameter mapping**  
-Data dimensions are assigned to pitch, time, level, timbre or position.
-
-These are different evidence claims.
-
----
-
-## One curve, two hearings
-
-The source values stay fixed.
-
-**Pitch mapping:** brightness → 220–660 Hz  
-**Rhythm mapping:** brightness → interval length
-
-If the interpretation changes, the mapping is doing intellectual work.
+<p className="source-note">The detector supplies values. The designer supplies the listening rule.</p>
 
 ---
 
-{/* _class: dense */}
+## Two legitimate routes to a speaker
 
-## The accountable sentence
+<div className="deck-grid">
+  <div className="panel gold">
+    <p className="panel-title">Audification</p>
+    <p>Replay an existing time series as audio, usually with a new speed or frequency range.</p>
+    <p><strong>Preserves:</strong> temporal shape.</p>
+  </div>
+  <div className="panel">
+    <p className="panel-title">Parameter mapping</p>
+    <p>Assign data dimensions to pitch, duration, level, timbre or stereo position.</p>
+    <p><strong>Reveals:</strong> selected relationships.</p>
+  </div>
+</div>
 
-Do not write:
+Neither route is neutral. Each supports a different scientific question.
 
-> This is the sound of an exoplanet.
+---
 
-Write:
+## A synthetic transit-shaped dip
 
-> Relative brightness samples were mapped linearly to pitch and played at a
-> fixed interval.
+<div className="instrument-plot" role="img" aria-label="Ten synthetic brightness samples dip in the middle and recover">
+  <span className="axis-label y">relative brightness</span>
+  <span className="sample" style="--v:96"></span><span className="sample" style="--v:98"></span><span className="sample" style="--v:99"></span><span className="sample gold" style="--v:91"></span><span className="sample alert" style="--v:65"></span><span className="sample gold" style="--v:89"></span><span className="sample" style="--v:97"></span><span className="sample" style="--v:100"></span><span className="sample" style="--v:98"></span><span className="sample" style="--v:99"></span>
+  <span className="axis-label x">sample →</span>
+</div>
 
-The second sentence can be checked.
+The values are invented. The shape is useful because we can hear the **same source** through competing mappings.
+
+---
+
+{/* _class: compact */}
+
+## Same values, different arguments
+
+<table className="mapping-table">
+  <thead><tr><th>Rule</th><th>What changes</th><th>What becomes easy</th><th>Risk</th></tr></thead>
+  <tbody>
+    <tr><td>Pitch</td><td>220–660 Hz</td><td>ordered height</td><td>pitch feels more precise than the samples</td></tr>
+    <tr><td>Rhythm</td><td>180–520 ms gap</td><td>event timing</td><td>source was evenly sampled</td></tr>
+    <tr><td>Level</td><td>−24 to −9 dB</td><td>large contrast</td><td>hearing safety and device variation</td></tr>
+  </tbody>
+</table>
+
+<p className="question">If the interpretation changes, where is the meaning: in the data, or in the mapping?</p>
+
+---
+
+## The accountable signal chain
+
+<div className="process-flow">
+  <div><strong>Observe</strong><span>Name the measured quantity, units and sampling.</span></div>
+  <div><strong>Transform</strong><span>Expose cleaning, scaling, filtering and gaps.</span></div>
+  <div><strong>Map</strong><span>State every data-to-sound relationship.</span></div>
+  <div><strong>Test</strong><span>Ask whether a listener can answer the intended question.</span></div>
+</div>
+
+This four-part chain becomes the method for the entire semester.
+
+---
+
+{/* _class: compact */}
+
+## Rewrite the claim
+
+<div className="deck-grid">
+  <div className="choice warm">
+    <p className="panel-title">Too strong</p>
+    <p>“This is the sound of an exoplanet.”</p>
+    <span>It hides source, processing and authorship.</span>
+  </div>
+  <div className="choice gold">
+    <p className="panel-title">Checkable</p>
+    <p>“Relative brightness samples were mapped linearly to pitch and played 320 ms apart.”</p>
+    <span>A listener can reconstruct what happened.</span>
+  </div>
+</div>
+
+Good disclosure does not make the experience less wondrous. It locates the wonder honestly.
 
 ---
 
 {/* _class: impact */}
 
-# Listening Lab
+<p className="eyebrow">Listening Lab 01 · Output: claim card</p>
 
-Hear first. Inspect second.
+# Hear first. Inspect second.
 
-Name one pattern the sound revealed and one assumption it introduced.
+<div className="lab-brief">
+  <div><p className="panel-title">Task</p><p>Compare pitch and rhythm mappings of one ten-sample curve. Write what you think changed before seeing the legend.</p></div>
+  <div><p className="panel-title">Deliver</p><ul><li>one evidence claim</li><li>one mapping rule</li><li>one limitation</li></ul></div>
+</div>
+
+<p className="source-note">Reference: NASA Exoplanet Watch · science.nasa.gov/citizen-science/exoplanet-watch/</p>
