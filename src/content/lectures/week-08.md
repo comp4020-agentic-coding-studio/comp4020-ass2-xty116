@@ -6,6 +6,7 @@ date: 2027-09-27
 teachers: [amara-vale]
 question: Can a listener compare spectra without confusing wavelength with musical harmony?
 dataObject: one-dimensional emission spectrum
+slides: /decks/spectra-colour-and-redshift/
 related:
   - sessions/week-08
   - assessments/sonification-critique

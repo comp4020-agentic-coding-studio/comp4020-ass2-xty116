@@ -6,6 +6,7 @@ date: 2027-10-25
 teachers: [amara-vale, eli-chen]
 question: Can a public listener understand both the astronomical pattern and how its sound was made?
 dataObject: student-curated astronomical dataset
+slides: /decks/the-cosmic-listening-room/
 related:
   - sessions/week-12
   - assessments/cosmic-listening-instrument

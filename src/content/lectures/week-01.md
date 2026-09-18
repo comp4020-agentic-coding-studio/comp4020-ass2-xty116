@@ -6,6 +6,7 @@ date: 2027-07-26
 teachers: [amara-vale]
 question: What exactly are we hearing when an astronomical dataset becomes sound?
 dataObject: synthetic light curve
+slides: /decks/can-space-be-heard/
 related:
   - sessions/week-01
   - assessments/listening-notebook

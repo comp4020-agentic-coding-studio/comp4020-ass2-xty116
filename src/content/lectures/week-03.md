@@ -6,6 +6,7 @@ date: 2027-08-09
 teachers: [amara-vale, eli-chen]
 question: When does a sonic mapping preserve an order, difference or pattern in the data?
 dataObject: normalized scalar sequence
+slides: /decks/mapping-numbers-to-sound/
 related:
   - sessions/week-03
   - assessments/listening-notebook

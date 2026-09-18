@@ -6,6 +6,7 @@ date: 2027-08-02
 teachers: [amara-vale]
 question: Which transformations happen before a telescope measurement reaches a listener?
 dataObject: calibrated detector time series
+slides: /decks/from-telescope-to-speaker/
 related:
   - sessions/week-02
   - assessments/listening-notebook

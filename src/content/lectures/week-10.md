@@ -6,6 +6,7 @@ date: 2027-10-11
 teachers: [eli-chen]
 question: Who gains and who is excluded when sound becomes the primary representation?
 dataObject: multimodal transit dataset
+slides: /decks/accessibility-beyond-the-graph/
 related:
   - sessions/week-10
   - assessments/cosmic-listening-instrument

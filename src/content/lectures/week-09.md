@@ -6,6 +6,7 @@ date: 2027-10-04
 teachers: [amara-vale, eli-chen]
 question: How can uncertainty remain perceptible without overwhelming the measured pattern?
 dataObject: light curve with error bars and gaps
+slides: /decks/noise-gaps-and-uncertainty/
 related:
   - sessions/week-09
   - assessments/sonification-critique

@@ -6,6 +6,7 @@ date: 2027-10-18
 teachers: [amara-vale, eli-chen]
 question: At what point does a compelling listening experience become a misleading scientific claim?
 dataObject: paired honest and deceptive mappings
+slides: /decks/when-sonification-lies/
 related:
   - sessions/week-11
   - assessments/cosmic-listening-instrument

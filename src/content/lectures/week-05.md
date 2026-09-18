@@ -6,6 +6,7 @@ date: 2027-08-23
 teachers: [amara-vale, eli-chen]
 question: How do we distinguish a solar radio event from noise, interference and instrument drift?
 dataObject: solar radio dynamic spectrum
+slides: /decks/the-noisy-sun/
 related:
   - sessions/week-05
   - assessments/listening-notebook

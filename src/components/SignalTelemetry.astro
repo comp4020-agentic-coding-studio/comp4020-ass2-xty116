@@ -1,0 +1,190 @@
+---
+import Icon from "astro-theme-university/components/Icon.astro";
+---
+
+<section class="telemetry" aria-labelledby="telemetry-title" data-telemetry>
+  <header>
+    <div>
+      <p class="telemetry-label">Synthetic observatory feed · CH-03</p>
+      <h2 id="telemetry-title">Signal telemetry</h2>
+    </div>
+    <div class="telemetry-controls">
+      <output data-time aria-live="off">T+00.0 s</output>
+      <button type="button" data-toggle aria-pressed="false">
+        <span data-pause><Icon name="pause" /> Pause</span>
+        <span data-resume hidden><Icon name="play" /> Resume</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="scope">
+    <canvas
+      data-scope
+      role="img"
+      aria-label="Animated synthetic signal monitor with three wave traces and occasional pulse peaks"
+    ></canvas>
+    <div class="scope-readout" aria-hidden="true">
+      <span>ν 1420.4 MHz</span>
+      <span>Δt 0.04 s</span>
+      <span>SNR 08.7</span>
+    </div>
+  </div>
+
+  <dl>
+    <div><dt>Input</dt><dd>Three invented teaching signals</dd></div>
+    <div><dt>View</dt><dd>Amplitude against sample time</dd></div>
+    <div><dt>Status</dt><dd data-status>Scanning</dd></div>
+  </dl>
+  <p class="telemetry-note">Visual simulation only. No scientific observation is represented.</p>
+</section>
+
+<script>
+  for (const panel of document.querySelectorAll<HTMLElement>("[data-telemetry]")) {
+    const canvas = panel.querySelector<HTMLCanvasElement>("[data-scope]");
+    const toggle = panel.querySelector<HTMLButtonElement>("[data-toggle]");
+    const pauseLabel = panel.querySelector<HTMLElement>("[data-pause]");
+    const resumeLabel = panel.querySelector<HTMLElement>("[data-resume]");
+    const time = panel.querySelector<HTMLOutputElement>("[data-time]");
+    const status = panel.querySelector<HTMLElement>("[data-status]");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    let running = !reducedMotion.matches;
+    let frame = 0;
+    let animation = 0;
+
+    const syncControl = () => {
+      if (toggle) {
+        toggle.setAttribute("aria-pressed", String(!running));
+        toggle.setAttribute("aria-label", running ? "Pause signal animation" : "Resume signal animation");
+      }
+      if (pauseLabel) pauseLabel.hidden = !running;
+      if (resumeLabel) resumeLabel.hidden = running;
+      if (status) status.textContent = running ? "Scanning" : "Paused";
+    };
+
+    const draw = () => {
+      if (!canvas) return;
+      const ratio = Math.min(devicePixelRatio || 1, 2);
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      if (canvas.width !== Math.round(width * ratio) || canvas.height !== Math.round(height * ratio)) {
+        canvas.width = Math.round(width * ratio);
+        canvas.height = Math.round(height * ratio);
+      }
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      context.clearRect(0, 0, width, height);
+
+      const styles = getComputedStyle(panel);
+      const grid = styles.getPropertyValue("--telemetry-grid").trim();
+      const signal = styles.getPropertyValue("--telemetry-signal").trim();
+      const pulse = styles.getPropertyValue("--telemetry-pulse").trim();
+
+      context.strokeStyle = grid;
+      context.lineWidth = 1;
+      for (let x = 0; x <= width; x += 32) {
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.lineTo(x, height);
+        context.stroke();
+      }
+      for (let y = 0; y <= height; y += 32) {
+        context.beginPath();
+        context.moveTo(0, y);
+        context.lineTo(width, y);
+        context.stroke();
+      }
+
+      const traces = [
+        { base: height * 0.28, amplitude: 18, speed: 0.055, phase: 0 },
+        { base: height * 0.53, amplitude: 28, speed: 0.038, phase: 1.8 },
+        { base: height * 0.75, amplitude: 13, speed: 0.083, phase: 3.2 },
+      ];
+
+      traces.forEach((trace, traceIndex) => {
+        context.strokeStyle = traceIndex === 1 ? pulse : signal;
+        context.lineWidth = traceIndex === 1 ? 2.2 : 1.4;
+        context.beginPath();
+        for (let x = 0; x <= width; x += 3) {
+          const wave =
+            Math.sin(x * trace.speed + frame * 0.045 + trace.phase) * trace.amplitude +
+            Math.sin(x * 0.013 - frame * 0.025) * trace.amplitude * 0.38;
+          const peak = traceIndex === 1 && (Math.floor((x + frame * 2) / 170) % 4 === 2)
+            ? -Math.exp(-Math.pow(((x + frame * 2) % 170) - 82, 2) / 90) * 64
+            : 0;
+          const y = trace.base + wave + peak;
+          if (x === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        context.stroke();
+      });
+
+      context.fillStyle = pulse;
+      const scanX = (frame * 2.2) % width;
+      context.fillRect(scanX, 0, 1.5, height);
+
+      if (time) time.value = `T+${(frame / 24).toFixed(1).padStart(4, "0")} s`;
+      if (running) {
+        frame += 1;
+        animation = requestAnimationFrame(draw);
+      }
+    };
+
+    toggle?.addEventListener("click", () => {
+      running = !running;
+      syncControl();
+      if (running) draw();
+      else cancelAnimationFrame(animation);
+    });
+    reducedMotion.addEventListener("change", (event) => {
+      running = !event.matches;
+      syncControl();
+      if (running) draw();
+      else cancelAnimationFrame(animation);
+    });
+    new ResizeObserver(draw).observe(panel);
+    syncControl();
+    draw();
+    window.addEventListener("pagehide", () => cancelAnimationFrame(animation), { once: true });
+  }
+</script>
+
+<style>
+  .telemetry {
+    --telemetry-grid: color-mix(in srgb, var(--at-text) 14%, transparent);
+    --telemetry-signal: color-mix(in srgb, var(--at-primary) 72%, white);
+    --telemetry-pulse: #75d5cc;
+    margin-block: 1rem 4rem;
+    border: 1px solid color-mix(in srgb, var(--at-primary) 46%, var(--at-border));
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--at-bg-elevated) 86%, transparent);
+    box-shadow: 0 1.5rem 5rem color-mix(in srgb, black 34%, transparent);
+    overflow: hidden;
+  }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.25rem; }
+  header h2 { margin: 0; font-size: 1.25rem; }
+  .telemetry-label { margin: 0 0 0.25rem; color: var(--at-primary); font-size: 0.72rem; font-weight: 750; text-transform: uppercase; }
+  .telemetry-controls { display: flex; align-items: center; gap: 0.75rem; }
+  output { min-width: 5.5rem; color: var(--at-text-secondary); font-family: var(--font-mono, monospace); font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+  button { min-width: 6.5rem; padding: 0.55rem 0.7rem; border: 1px solid var(--at-border); border-radius: 2px; color: var(--at-text); background: transparent; font: inherit; font-size: 0.82rem; cursor: pointer; }
+  button span { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; }
+  button span[hidden] { display: none; }
+  .scope { position: relative; min-height: 20rem; border-block: 1px solid var(--at-border); background: color-mix(in srgb, #05070a 94%, var(--at-primary)); }
+  canvas { display: block; width: 100%; height: 20rem; }
+  .scope-readout { position: absolute; inset: 0.75rem 0.8rem auto; display: flex; gap: 0.55rem; justify-content: flex-end; color: #d8e5df; font-family: var(--font-mono, monospace); font-size: 0.68rem; }
+  .scope-readout span { padding: 0.25rem 0.4rem; border: 1px solid color-mix(in srgb, #75d5cc 32%, transparent); background: color-mix(in srgb, #05070a 82%, transparent); }
+  dl { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; }
+  dl div { padding: 0.8rem 1.25rem; }
+  dl div + div { border-inline-start: 1px solid var(--at-border); }
+  dt { color: var(--at-primary); font-size: 0.7rem; font-weight: 750; text-transform: uppercase; }
+  dd { margin: 0.25rem 0 0; color: var(--at-text-secondary); font-size: 0.82rem; }
+  .telemetry-note { margin: 0; padding: 0.75rem 1.25rem; border-top: 1px solid var(--at-border); color: var(--at-text-secondary); font-size: 0.76rem; }
+  @media (max-width: 42rem) {
+    header { align-items: flex-start; flex-direction: column; }
+    .telemetry-controls { justify-content: space-between; width: 100%; }
+    .scope, canvas { min-height: 15rem; height: 15rem; }
+    .scope-readout { justify-content: flex-start; flex-wrap: wrap; }
+    dl { grid-template-columns: 1fr; }
+    dl div + div { border-block-start: 1px solid var(--at-border); border-inline-start: 0; }
+  }
+</style>

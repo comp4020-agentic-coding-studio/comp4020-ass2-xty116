@@ -6,6 +6,7 @@ date: 2027-09-20
 teachers: [eli-chen]
 question: What can an image scan communicate when the listener cannot see the source image?
 dataObject: Chandra Deep Field image
+slides: /decks/listening-to-light/
 related:
   - sessions/week-07
   - assessments/pulsar-signal-study

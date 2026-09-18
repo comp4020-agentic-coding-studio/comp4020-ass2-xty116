@@ -6,6 +6,7 @@ date: 2027-08-16
 teachers: [amara-vale]
 question: How can timing reveal a pulsar without turning its regularity into a beat fiction?
 dataObject: folded pulsar pulse profile
+slides: /decks/the-clocks-of-pulsars/
 related:
   - sessions/week-04
   - assessments/pulsar-signal-study

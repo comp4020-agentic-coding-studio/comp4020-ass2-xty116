@@ -1,10 +1,14 @@
 :root {
-  --course-grid: color-mix(in srgb, var(--at-text) 13%, transparent);
-  --course-signal: var(--at-primary);
-  --course-highlight: var(--at-secondary);
+  --course-grid: color-mix(in srgb, var(--at-text) 8%, transparent);
+  --course-signal: color-mix(in srgb, var(--at-primary) 78%, white);
+  --course-cyan: #75d5cc;
+  --course-ink: #07090c;
 }
 
+html { background: var(--course-ink); }
+
 body {
+  background-color: var(--course-ink);
   background-image:
     linear-gradient(var(--course-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--course-grid) 1px, transparent 1px);
@@ -12,7 +16,75 @@ body {
   background-position: center top;
 }
 
-main { background: color-mix(in srgb, var(--at-bg) 94%, transparent); }
+.at-nav {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  border-block-end: 1px solid color-mix(in srgb, var(--at-primary) 32%, var(--at-border));
+  background: color-mix(in srgb, var(--at-bg) 83%, transparent);
+  backdrop-filter: blur(18px) saturate(125%);
+}
+
+.at-main {
+  position: relative;
+  border-inline: 1px solid color-mix(in srgb, var(--at-primary) 22%, var(--at-border));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--at-bg) 97%, transparent), var(--at-bg));
+}
+
+.at-main::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: linear-gradient(90deg, transparent 49.8%, color-mix(in srgb, var(--course-cyan) 8%, transparent) 50%, transparent 50.2%);
+  content: "";
+  pointer-events: none;
+}
+
+.at-main > * { position: relative; z-index: 1; }
+
+.at-hero {
+  position: relative;
+  min-height: clamp(23rem, 48vh, 36rem);
+  border-block-end: 1px solid color-mix(in srgb, var(--at-primary) 48%, transparent);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.at-hero::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 5px, color-mix(in srgb, black 12%, transparent) 6px),
+    linear-gradient(90deg, color-mix(in srgb, black 48%, transparent), transparent 72%);
+  content: "";
+  pointer-events: none;
+}
+
+.at-hero::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0 auto auto;
+  width: 100%;
+  border-block-start: 1px solid color-mix(in srgb, var(--course-cyan) 76%, transparent);
+  box-shadow: 0 0 1.5rem color-mix(in srgb, var(--course-cyan) 48%, transparent);
+  content: "";
+  animation: hero-scan 8s linear infinite;
+  pointer-events: none;
+}
+
+.at-hero-image {
+  transform: scale(1.025);
+  animation: hero-drift 18s ease-in-out infinite alternate;
+}
+
+.at-hero-content { z-index: 4; }
+
+.at-hero-title {
+  max-width: 17ch;
+  text-shadow: 0 0.15rem 1.25rem black;
+}
 
 .course-tags {
   display: flex;
@@ -25,60 +97,96 @@ main { background: color-mix(in srgb, var(--at-bg) 94%, transparent); }
 
 .course-tags li {
   padding: 0.35rem 0.7rem;
-  border: 1px solid var(--at-border);
+  border: 1px solid color-mix(in srgb, var(--course-cyan) 28%, var(--at-border));
   border-radius: 2px;
-  color: var(--at-text-secondary);
-  background: var(--at-bg-elevated);
-  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--course-cyan) 70%, var(--at-text));
+  background: color-mix(in srgb, var(--at-bg-elevated) 88%, transparent);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.76rem;
   text-transform: uppercase;
 }
 
 .eyebrow {
   margin-block-end: 0.35rem;
   color: var(--course-signal);
-  font-size: 0.78rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
   font-weight: 750;
   text-transform: uppercase;
 }
 
-.course-thesis {
-  margin-block: 2rem 4rem;
-  padding-block: 2rem;
-  border-block: 2px solid var(--at-text);
+.eyebrow::before {
+  display: inline-block;
+  width: 1.75rem;
+  margin-inline-end: 0.55rem;
+  border-block-start: 1px solid var(--course-cyan);
+  content: "";
+  vertical-align: middle;
 }
 
-.course-thesis h2 { max-width: 18ch; margin-block: 0.35rem 1rem; }
-.course-thesis p:last-child { max-width: 64ch; font-size: 1.15rem; }
+.course-thesis {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.3fr);
+  column-gap: 3rem;
+  margin-block: 2rem 5rem;
+  padding-block: 2.25rem;
+  border-block: 1px solid color-mix(in srgb, var(--at-primary) 45%, var(--at-border));
+}
+
+.course-thesis .eyebrow { grid-column: 1 / -1; }
+.course-thesis h2 { max-width: 13ch; margin-block: 0.35rem 1rem; color: var(--at-text); }
+.course-thesis p:last-child { align-self: end; max-width: 58ch; font-size: 1.15rem; }
 
 .signal-chain,
 .semester-arc {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
-  margin-block: 1.5rem 4rem;
+  margin-block: 1.5rem 5rem;
   padding: 1px;
+  border: 1px solid color-mix(in srgb, var(--at-primary) 28%, var(--at-border));
   background: var(--at-border);
+  counter-reset: signal-step;
   list-style: none;
 }
 
 .signal-chain li,
 .semester-arc p {
+  position: relative;
   min-width: 0;
+  min-height: 9rem;
   margin: 0;
   padding: 1.25rem;
-  background: var(--at-bg-elevated);
+  background: color-mix(in srgb, var(--at-bg-elevated) 93%, var(--course-ink));
+  overflow: hidden;
 }
+
+.signal-chain li::after {
+  position: absolute;
+  inset: auto 0.6rem -1.35rem auto;
+  color: color-mix(in srgb, var(--at-primary) 10%, transparent);
+  content: "0" counter(signal-step);
+  counter-increment: signal-step;
+  font-family: var(--font-mono, monospace);
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.signal-chain li:hover::after { color: color-mix(in srgb, var(--course-cyan) 19%, transparent); }
 
 .signal-chain strong,
 .semester-arc strong {
   display: block;
-  margin-block-end: 0.55rem;
-  color: var(--course-highlight);
+  margin-block-end: 0.65rem;
+  color: var(--course-signal);
   font-size: 1.05rem;
 }
 
 .signal-chain span,
 .semester-arc span {
+  position: relative;
+  z-index: 1;
   display: block;
   color: var(--at-text-secondary);
   font-size: 0.92rem;
@@ -86,7 +194,62 @@ main { background: color-mix(in srgb, var(--at-bg) 94%, transparent); }
 
 .semester-arc { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
+.at-card {
+  position: relative;
+  border-color: color-mix(in srgb, var(--at-primary) 24%, var(--at-border));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--at-bg-elevated) 90%, transparent);
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  overflow: hidden;
+}
+
+.at-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--course-cyan);
+  content: "";
+  opacity: 0;
+  transform: scaleY(0.25);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.at-card:hover,
+.at-card:focus-visible {
+  border-color: color-mix(in srgb, var(--course-cyan) 48%, var(--at-border));
+  box-shadow: 0 1rem 3rem color-mix(in srgb, black 24%, transparent);
+  transform: translateY(-3px);
+}
+
+.at-card:hover::before,
+.at-card:focus-visible::before { opacity: 1; transform: scaleY(1); }
+
+.at-card-title { color: var(--course-signal); }
+
+@keyframes hero-scan {
+  from { transform: translateY(0); opacity: 0; }
+  8%, 90% { opacity: 0.55; }
+  to { transform: translateY(clamp(23rem, 48vh, 36rem)); opacity: 0; }
+}
+
+@keyframes hero-drift {
+  from { transform: scale(1.025) translate3d(0, 0, 0); }
+  to { transform: scale(1.06) translate3d(-0.5%, -0.7%, 0); }
+}
+
 @media (max-width: 48rem) {
-  .signal-chain, .semester-arc { grid-template-columns: 1fr; }
   body { background-size: 2rem 2rem; }
+  .at-hero { min-height: 22rem; }
+  .course-thesis { grid-template-columns: 1fr; gap: 0.5rem; }
+  .signal-chain, .semester-arc { grid-template-columns: 1fr; }
+  .signal-chain li, .semester-arc p { min-height: 7rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .at-hero::after,
+  .at-hero-image { animation: none; }
+  .at-card,
+  .at-card::before { transition: none; }
+  .at-card:hover,
+  .at-card:focus-visible { transform: none; }
 }

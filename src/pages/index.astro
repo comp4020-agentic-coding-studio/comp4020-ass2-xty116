@@ -4,6 +4,7 @@ import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import heroImage from "../assets/images/hero-universe.png";
 import ListeningLab from "../components/ListeningLab.astro";
+import SignalTelemetry from "../components/SignalTelemetry.astro";
 import { courseMeta } from "../course-config";
 import { sessionLabels, siteConfig } from "../site-config";
 import "../styles/course.css";
@@ -19,6 +20,8 @@ import "../styles/course.css";
   <ul class="course-tags" aria-label="Course tags">
     {courseMeta.tags.map((tag) => <li>{tag}</li>)}
   </ul>
+
+  <SignalTelemetry />
 
   <section class="course-thesis" aria-labelledby="thesis-title">
     <p class="eyebrow">The course position</p>

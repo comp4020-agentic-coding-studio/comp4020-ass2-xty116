@@ -54,12 +54,13 @@ describe("SLOP3255 course contract", () => {
     }
   });
 
-  it("links a real deck from at least one lecture", () => {
-    expect(
-      byType("lectures").some((node) =>
-        String(node.meta?.slides ?? "").startsWith("/decks/"),
-      ),
-    ).toBe(true);
+  it("links a distinct real deck from every lecture", () => {
+    const slides = byType("lectures").map((node) => String(node.meta?.slides ?? ""));
+    expect(slides).toHaveLength(12);
+    expect(new Set(slides).size).toBe(12);
+    for (const slidePath of slides) {
+      expect(slidePath).toMatch(/^\/decks\/[a-z0-9-]+\/$/);
+    }
   });
 
   it("uses four staged assessments whose weights total 100", () => {
