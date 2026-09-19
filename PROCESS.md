@@ -55,21 +55,22 @@ made deck text too small. Commit
 records the responsive fixes. I then re-ran type checking, production build,
 accessibility, internal-link, deck, generated-API and custom contract checks.
 
-A final visual pass in
+The visual pass in
 [`4734793`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/4734793)
-made the course interface behave more like a listening observatory than a
-generic template. I retained the fixed SlopU identity and palette, but moved the
-surfaces into a dark instrument environment with scan lines, signal colours and
-a synthetic telemetry display. Its animation can be paused and is disabled by
-the user's reduced-motion preference; the panel also states that it is a visual
-simulation rather than scientific evidence. I expanded the original single
-deck so every lecture owned a unique route. Commit
+initially leaned on synthetic telemetry. A rubric review made me reject that as
+decoration: it looked on-topic but did not help a prospective student
+understand the curriculum. I encoded the replacement contract first in
+[`65172ef`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/65172ef):
+every week must expose outcomes, teaching values, a worked method, an explained
+checkpoint and a primary source.
+[`d0ff96c`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/d0ff96c)
+then replaced telemetry with a semester atlas, twelve observation guides and a
+downloadable field guide, while adding speed and level controls to the listening
+comparison. I accepted it only after following the marker route through
+non-adjacent weeks, assessment, deck and policies at both viewports, resizing
+during playback and operating every audio control by keyboard. Earlier deck
+commits
 [`9beaf20`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/9beaf20)
-then replaced the outline-like decks with 110 taught slides: evidence tables,
-synthetic plots, process diagrams and distinct lab briefs tied to each week's
-data object. I raised the contract to require at least eight slides per lecture
-and measured every slide at 1920×1080 and 390×844 so depth could not regress
-into repeated content-shaped chunks.
-Commit
+and
 [`8987cd0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/8987cd0)
-aligned every deck's colours and type with the course observatory.
+supply 110 distinct, course-styled slides rather than one repeated outline.
