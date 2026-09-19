@@ -8,6 +8,7 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import MarkingModel from "../../components/MarkingModel.astro";
 import { formatCourseDate } from "../../lib/dates";
 import { graphCollections, siteConfig } from "../../site-config";
+import "../../styles/course.css";
 
 export async function getStaticPaths() {
   const assessments = await getPublishedCollection("assessments");
@@ -35,8 +36,12 @@ const { Content } = await render(assessment);
       </Callout>
     )
   }
-  <p><strong>Due:</strong> {formatCourseDate(assessment.data.due)} · <strong>Weight:</strong> {assessment.data.weight}%</p>
-  <Content />
+  <header class="assessment-entry">
+    <div><span>Due</span><strong>{formatCourseDate(assessment.data.due)}</strong></div>
+    <div><span>Weight</span><strong>{assessment.data.weight}%</strong></div>
+    <div><span>Stage</span><strong>Week {assessment.data.week}</strong></div>
+  </header>
+  <article class="assessment-prose"><Content /></article>
   <SpecList spec={assessment.data.spec}>
     The brief poses the problem and leaves room for a response. The spec is the
     fixed part: what a marker checks. Some lines can be checked mechanically;
@@ -45,3 +50,18 @@ const { Content } = await render(assessment);
   {assessment.data.marking && <MarkingModel marking={assessment.data.marking} />}
   <RelatedContent entry={assessment} collections={graphCollections} />
 </ContentLayout>
+
+<style>
+  .assessment-entry { display: grid; grid-template-columns: repeat(3, 1fr); margin-block: 1rem 3.5rem; border-block: 1px solid var(--course-line-strong); }
+  .assessment-entry div { padding: 1.25rem 0; }
+  .assessment-entry div + div { padding-inline-start: 1.5rem; border-inline-start: 1px solid var(--at-border); }
+  .assessment-entry span, .assessment-entry strong { display: block; }
+  .assessment-entry span { color: var(--course-cyan); font-family: var(--at-font-mono); font-size: 0.68rem; text-transform: uppercase; }
+  .assessment-entry strong { margin-block-start: 0.35rem; color: var(--course-paper); font-size: 1.15rem; }
+  .assessment-prose { max-width: 56rem; margin-inline: auto; }
+  .assessment-prose :global(h2) { margin-block-start: 2.8rem; color: var(--course-paper); }
+  @media (max-width: 40rem) {
+    .assessment-entry { grid-template-columns: 1fr; }
+    .assessment-entry div + div { padding-inline-start: 0; border-block-start: 1px solid var(--at-border); border-inline-start: 0; }
+  }
+</style>

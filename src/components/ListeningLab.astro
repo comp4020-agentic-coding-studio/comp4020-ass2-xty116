@@ -15,6 +15,11 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
     <output class="lab-status" data-status aria-live="polite">Ready</output>
   </div>
 
+  <div class="listening-task">
+    <span>Listening task</span>
+    <p>Without looking at the values, locate the lowest region. Then inspect whether the mapping preserved value, timing or both.</p>
+  </div>
+
   <div class="data-plot" role="img" aria-label="Ten relative brightness samples. Values dip from 0.99 to 0.83 around the fifth sample, then recover to 1.0.">
     {values.map((value, index) => (
       <div class="sample" style={`--value: ${value}`}>
@@ -31,9 +36,19 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
       <label><input type="radio" name={`mapping-${compact ? "compact" : "full"}`} value="pitch" checked /> Pitch</label>
       <label><input type="radio" name={`mapping-${compact ? "compact" : "full"}`} value="rhythm" /> Rhythm</label>
     </fieldset>
+    <div class="playback-settings">
+      <label>
+        <span>Speed <output data-speed-output>1.00x</output></span>
+        <input data-speed type="range" min="0.75" max="1.5" value="1" step="0.25" />
+      </label>
+      <label>
+        <span>Level <output data-level-output>35%</output></span>
+        <input data-level type="range" min="0" max="100" value="35" step="5" />
+      </label>
+    </div>
     <div class="transport">
       <button type="button" data-play><Icon name="play" /> Play</button>
-      <button type="button" class="stop" data-stop disabled><Icon name="pause" /> Stop</button>
+      <button type="button" class="stop" data-stop disabled><Icon name="square" /> Stop</button>
     </div>
   </div>
 
@@ -41,7 +56,7 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
     <div><dt>Source</dt><dd>Synthetic relative brightness, 0.83–1.00</dd></div>
     <div data-pitch-rule><dt>Pitch rule</dt><dd>Brightness maps linearly to 220–660 Hz; samples remain 320 ms apart.</dd></div>
     <div data-rhythm-rule hidden><dt>Rhythm rule</dt><dd>Pitch stays at 392 Hz; lower brightness creates a longer 180–520 ms interval.</dd></div>
-    <div><dt>Constant</dt><dd>Sine timbre, 120 ms note, quiet master gain</dd></div>
+    <div><dt>Constant</dt><dd>Sine timbre, 120 ms note; speed changes playback only</dd></div>
   </dl>
 
   <p class="lab-note">These values are invented for learning. They resemble a transit-shaped dip but do not represent a discovered planet.</p>
@@ -56,6 +71,10 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
     const status = lab.querySelector<HTMLOutputElement>("[data-status]");
     const pitchRule = lab.querySelector<HTMLElement>("[data-pitch-rule]");
     const rhythmRule = lab.querySelector<HTMLElement>("[data-rhythm-rule]");
+    const speed = lab.querySelector<HTMLInputElement>("[data-speed]");
+    const speedOutput = lab.querySelector<HTMLOutputElement>("[data-speed-output]");
+    const level = lab.querySelector<HTMLInputElement>("[data-level]");
+    const levelOutput = lab.querySelector<HTMLOutputElement>("[data-level-output]");
     let context: AudioContext | undefined;
     let timers: number[] = [];
     let active = false;
@@ -69,6 +88,7 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
       if (stop) stop.disabled = true;
       if (status) status.value = "Stopped";
       lab.querySelectorAll(".sample.active").forEach((sample) => sample.classList.remove("active"));
+      lab.querySelectorAll(".sample[aria-current]").forEach((sample) => sample.removeAttribute("aria-current"));
     };
 
     const tone = (frequency: number) => {
@@ -78,7 +98,8 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
       oscillator.type = "sine";
       oscillator.frequency.value = frequency;
       gain.gain.setValueAtTime(0.0001, context.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.06, context.currentTime + 0.015);
+      const audibleGain = 0.06 * (Number(level?.value ?? 35) / 100);
+      gain.gain.exponentialRampToValueAtTime(Math.max(audibleGain, 0.0001), context.currentTime + 0.015);
       gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.12);
       oscillator.connect(gain).connect(context.destination);
       oscillator.start();
@@ -93,13 +114,18 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
       if (play) play.disabled = true;
       if (stop) stop.disabled = false;
       const selected = mode();
+      const playbackRate = Number(speed?.value ?? 1);
       let elapsed = 0;
       readings.forEach((reading, index) => {
-        const delay = selected === "pitch" ? 320 : 180 + ((1 - reading) / 0.17) * 340;
+        const baseDelay = selected === "pitch" ? 320 : 180 + ((1 - reading) / 0.17) * 340;
+        const delay = baseDelay / playbackRate;
         timers.push(window.setTimeout(() => {
           if (!active) return;
           lab.querySelectorAll(".sample.active").forEach((sample) => sample.classList.remove("active"));
-          lab.querySelectorAll<HTMLElement>(".sample")[index]?.classList.add("active");
+          const activeSample = lab.querySelectorAll<HTMLElement>(".sample")[index];
+          activeSample?.classList.add("active");
+          activeSample?.setAttribute("aria-current", "true");
+          lab.querySelectorAll<HTMLElement>(".sample:not(.active)").forEach((sample) => sample.removeAttribute("aria-current"));
           const frequency = selected === "pitch" ? 220 + ((reading - 0.83) / 0.17) * 440 : 392;
           tone(frequency);
           if (status) status.value = `Sample ${index + 1}: ${reading.toFixed(2)}`;
@@ -123,6 +149,15 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
         if (status) status.value = pitch ? "Pitch mapping selected" : "Rhythm mapping selected";
       });
     });
+    speed?.addEventListener("input", () => {
+      clear();
+      if (speedOutput) speedOutput.value = `${Number(speed.value).toFixed(2)}x`;
+      if (status) status.value = `Playback speed ${Number(speed.value).toFixed(2)} times`;
+    });
+    level?.addEventListener("input", () => {
+      if (levelOutput) levelOutput.value = `${level.value}%`;
+      if (status) status.value = `Playback level ${level.value} percent`;
+    });
     window.addEventListener("pagehide", clear, { once: true });
   }
 </script>
@@ -133,10 +168,13 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
   .lab-heading h3 { margin: 0; font-size: 1.2rem; }
   .lab-kicker { margin: 0 0 0.35rem; color: var(--at-text-secondary); font-size: 0.76rem; text-transform: uppercase; }
   .lab-status { min-width: 8rem; padding: 0.55rem 0.7rem; border: 1px solid var(--at-border); font-variant-numeric: tabular-nums; text-align: center; }
+  .listening-task { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; padding: 1rem 1.25rem; border-block-start: 1px solid var(--at-border); background: color-mix(in srgb, var(--course-gold) 6%, transparent); }
+  .listening-task span { color: var(--course-gold); font-family: var(--at-font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+  .listening-task p { max-width: 52rem; margin: 0; color: var(--at-text-secondary); font-size: 0.88rem; }
   .data-plot { display: grid; grid-template-columns: repeat(10, minmax(2.25rem, 1fr)); gap: 0.35rem; min-height: 15rem; padding: 1.25rem; border-block: 1px solid var(--at-border); overflow-x: auto; }
   .sample { display: grid; grid-template-rows: 1fr auto auto; min-width: 2.25rem; text-align: center; }
-  .bar { align-self: end; height: calc((var(--value) - 0.78) * 500%); min-height: 2rem; background: var(--at-secondary); transition: background-color 120ms ease, outline 120ms ease; }
-  .sample.active .bar { outline: 3px solid var(--at-text); background: var(--at-primary); }
+  .bar { align-self: end; height: calc((var(--value) - 0.78) * 500%); min-height: 2rem; background: linear-gradient(var(--course-gold), var(--course-coral)); transition: background-color 120ms ease, outline 120ms ease; }
+  .sample.active .bar { outline: 3px solid var(--course-paper); background: var(--course-cyan); }
   .sample-value { margin-block-start: 0.45rem; font-size: 0.76rem; font-variant-numeric: tabular-nums; }
   .sample-index { color: var(--at-text-secondary); font-size: 0.68rem; }
   .mapping-modes { display: flex; gap: 0; margin: 0; padding: 0; border: 0; }
@@ -144,6 +182,11 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
   .mapping-modes label { padding: 0.55rem 0.8rem; border: 1px solid var(--at-border); cursor: pointer; }
   .mapping-modes label + label { border-inline-start: 0; }
   .mapping-modes input { margin-inline-end: 0.35rem; }
+  .playback-settings { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; min-width: min(21rem, 100%); }
+  .playback-settings label { margin: 0; }
+  .playback-settings label > span { display: flex; justify-content: space-between; gap: 0.8rem; color: var(--at-text-secondary); font-size: 0.72rem; }
+  .playback-settings output { color: var(--course-cyan); font-family: var(--at-font-mono); }
+  .playback-settings input { width: 100%; accent-color: var(--course-gold); }
   .transport { display: flex; gap: 0.55rem; }
   .transport button { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.65rem; padding: 0.55rem 0.9rem; border: 1px solid var(--at-text); border-radius: 2px; color: var(--at-bg); background: var(--at-text); font: inherit; font-weight: 700; cursor: pointer; }
   .transport button.stop { color: var(--at-text); background: transparent; }
@@ -156,6 +199,7 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
   .lab-note { margin: 0; padding: 1rem 1.25rem; border-top: 1px solid var(--at-border); color: var(--at-text-secondary); font-size: 0.82rem; }
   @media (max-width: 42rem) {
     .lab-heading, .lab-controls { align-items: stretch; flex-direction: column; }
+    .listening-task { grid-template-columns: 1fr; }
     .lab-status { min-width: 0; }
     .data-plot { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.22rem; min-height: 13rem; padding-inline: 0.75rem; overflow: hidden; }
     .sample { min-width: 0; }

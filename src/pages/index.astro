@@ -1,10 +1,10 @@
 ---
-import Card from "astro-theme-university/components/Card.astro";
-import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { withBase } from "astro-theme-university/url";
 import heroImage from "../assets/images/hero-universe.png";
+import AssessmentPathway from "../components/AssessmentPathway.astro";
+import CourseAtlas from "../components/CourseAtlas.astro";
 import ListeningLab from "../components/ListeningLab.astro";
-import SignalTelemetry from "../components/SignalTelemetry.astro";
 import { courseMeta } from "../course-config";
 import { sessionLabels, siteConfig } from "../site-config";
 import "../styles/course.css";
@@ -21,7 +21,19 @@ import "../styles/course.css";
     {courseMeta.tags.map((tag) => <li>{tag}</li>)}
   </ul>
 
-  <SignalTelemetry />
+  <section class="course-intro" aria-labelledby="course-intro-title">
+    <div>
+      <p class="eyebrow">A studio in accountable sonification</p>
+      <h2 id="course-intro-title">Turn astronomical data into sound without hiding the translation.</h2>
+    </div>
+    <p>Students work like instrument builders: begin with a measured question, expose every operation, then test whether a listener can recover the intended pattern. Musical polish is welcome only after the evidence remains inspectable.</p>
+    <dl>
+      <div><dt>Level</dt><dd>Third-year studio</dd></div>
+      <div><dt>Duration</dt><dd>12 weeks</dd></div>
+      <div><dt>Prior audio</dt><dd>Not required</dd></div>
+      <div><dt>Final work</dt><dd>Public listening instrument</dd></div>
+    </dl>
+  </section>
 
   <section class="course-thesis" aria-labelledby="thesis-title">
     <p class="eyebrow">The course position</p>
@@ -40,28 +52,43 @@ import "../styles/course.css";
     </ol>
   </section>
 
+  <section aria-labelledby="atlas-title">
+    <p class="eyebrow">The semester as one investigation</p>
+    <h2 id="atlas-title">Twelve observations, one claim under pressure</h2>
+    <p class="section-lede">Each week changes the data object and the failure worth noticing. The signal chain stays visible, so techniques accumulate instead of resetting.</p>
+    <CourseAtlas />
+  </section>
+
   <section aria-labelledby="lab-preview-title">
-    <p class="eyebrow">Try the method</p>
+    <p class="eyebrow">Try the method before enrolling</p>
     <h2 id="lab-preview-title">Listening Lab: one curve, two mappings</h2>
-    <p>This synthetic teaching curve contains a small transit-like dip. Compare a pitch mapping with a rhythm mapping, then inspect the same values without sound.</p>
+    <p class="section-lede">The source stays fixed while one design decision changes. Listen, inspect the values, then decide which mapping supports the stated task.</p>
     <ListeningLab compact />
   </section>
 
-  <section aria-labelledby="semester-title">
-    <p class="eyebrow">Semester 2 · 12 weeks</p>
-    <h2 id="semester-title">From first signal to public instrument</h2>
-    <div class="semester-arc">
-      <p><strong>Weeks 1–4</strong><span>Learn the grammar: samples, scales, time and pulsars.</span></p>
-      <p><strong>Weeks 5–8</strong><span>Work with solar radio, gravitational waves, images and spectra.</span></p>
-      <p><strong>Weeks 9–12</strong><span>Expose uncertainty, test accessibility and open the listening room.</span></p>
+  <section class="field-guide-callout" aria-labelledby="field-guide-title">
+    <div>
+      <p class="eyebrow">A tool you keep</p>
+      <h2 id="field-guide-title">The Sonification Field Guide</h2>
+      <p>One reusable record for provenance, mapping, listening evidence and release checks. It follows every project from first values to public instrument.</p>
     </div>
+    <a href={withBase("/field-guide/")}>
+      <strong>Open the working method</strong>
+      <span>Includes a downloadable Markdown template</span>
+    </a>
   </section>
 
-  <h2>Enter the course</h2>
-  <CardGrid columns={2}>
-    <Card title="Lectures" href="/lectures/"><p>Twelve questions, twelve astronomical data objects, one traceable argument.</p></Card>
-    <Card title={sessionLabels.plural} href="/sessions/"><p>Weekly making sessions with a concrete output and an observable specification.</p></Card>
-    <Card title="Assessment" href="/assessments/"><p>Four staged submissions that build towards an accountable listening instrument.</p></Card>
-    <Card title="Open Listening Lab" href="/lab/"><p>Play the full teaching instrument and compare its mappings.</p></Card>
-  </CardGrid>
+  <section aria-labelledby="assessment-path-title">
+    <p class="eyebrow">Assessment is the build sequence</p>
+    <h2 id="assessment-path-title">Four submissions, one instrument</h2>
+    <p class="section-lede">Small mapping experiments become a signal study, then a critique, then a public work. Nothing is assigned only to be discarded.</p>
+    <AssessmentPathway />
+  </section>
+
+  <nav class="course-switchboard" aria-label="Course areas">
+    <a href={withBase("/lectures/")}><span>01</span><strong>Lectures</strong><small>Twelve questions and their observation guides</small></a>
+    <a href={withBase("/sessions/")}><span>02</span><strong>{sessionLabels.plural}</strong><small>Weekly practice with an inspectable output</small></a>
+    <a href={withBase("/lab/")}><span>03</span><strong>Open Listening Lab</strong><small>A complete mapping comparison in the browser</small></a>
+    <a href={withBase("/policies/")}><span>04</span><strong>Policies and access</strong><small>Hearing safety, attribution and participation</small></a>
+  </nav>
 </ContentLayout>

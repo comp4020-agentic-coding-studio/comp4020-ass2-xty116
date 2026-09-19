@@ -1,0 +1,162 @@
+---
+import Icon from "astro-theme-university/components/Icon.astro";
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { withBase } from "astro-theme-university/url";
+import { siteConfig } from "../site-config";
+import "../styles/course.css";
+---
+
+<ContentLayout
+  title="Sonification Field Guide"
+  description="A practical record for moving from astronomical data to a testable, accessible and fully disclosed listening instrument."
+  {...siteConfig}
+>
+  <header class="field-intro">
+    <div>
+      <p class="eyebrow">Working method · SLOP3255</p>
+      <h2>Keep the evidence beside the sound</h2>
+      <p>This guide is the course's working memory. Start it when you choose a dataset, update it when a mapping changes, and publish it with the final instrument.</p>
+    </div>
+    <a class="guide-download" href={withBase("/resources/sonification-field-guide.md")} download>
+      <Icon name="download" />
+      <span><strong>Download the Markdown template</strong><small>Editable · plain text · 3.4 KB</small></span>
+    </a>
+  </header>
+
+  <section class="field-sequence" aria-labelledby="sequence-title">
+    <p class="eyebrow">Four records, one chain</p>
+    <h2 id="sequence-title">A claim should survive every handoff</h2>
+    <ol>
+      <li><span>01</span><strong>Data passport</strong><p>Names the publisher, identifier, units, sampling, licence and exact selection.</p></li>
+      <li><span>02</span><strong>Mapping ledger</strong><p>Separates preparation, sound mapping and musical additions.</p></li>
+      <li><span>03</span><strong>Listening test</strong><p>Turns a scientific question into an observable participant task.</p></li>
+      <li><span>04</span><strong>Release audit</strong><p>Checks disclosure, keyboard control, non-audio access and resilient layouts.</p></li>
+    </ol>
+  </section>
+
+  <section class="ledger-example" aria-labelledby="ledger-title">
+    <div>
+      <p class="eyebrow">Worked entry</p>
+      <h2 id="ledger-title">One field through the ledger</h2>
+      <p>A mapping earns trust when each operation has one job and one visible consequence. This example uses invented brightness values to isolate the method.</p>
+    </div>
+    <table>
+      <thead><tr><th scope="col">Stage</th><th scope="col">Record</th><th scope="col">Why it matters</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Source</th><td>Relative brightness, evenly sampled</td><td>Defines what a value can support</td></tr>
+        <tr><th scope="row">Preparation</th><td>Clamp 0.83 to 1.00, no interpolation</td><td>Exposes the chosen domain and gaps</td></tr>
+        <tr><th scope="row">Mapping</th><td>Linear pitch, 220 to 660 Hz</td><td>Lets a reader reconstruct every note</td></tr>
+        <tr><th scope="row">Constant</th><td>320 ms interval, sine timbre</td><td>Keeps time and timbre out of the comparison</td></tr>
+        <tr><th scope="row">Claim</th><td>Locate the lowest region</td><td>Bounds the interpretation to a testable task</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="evidence-loop" aria-labelledby="loop-title">
+    <p class="eyebrow">Thirty-minute evidence loop</p>
+    <h2 id="loop-title">A small test can reject a beautiful mapping</h2>
+    <div>
+      <p><strong>0–5 min</strong><span>Write one answerable listening task before changing the sound.</span></p>
+      <p><strong>5–12 min</strong><span>Make two versions from identical source values and constants.</span></p>
+      <p><strong>12–22 min</strong><span>Ask a listener to attempt the task without an explanation from the maker.</span></p>
+      <p><strong>22–30 min</strong><span>Record the largest mismatch, revise one cause and repeat the same task.</span></p>
+    </div>
+  </section>
+
+  <section class="release-question" aria-labelledby="release-title">
+    <p class="eyebrow">Release question</p>
+    <h2 id="release-title">Can a stranger tell what the universe supplied and what you designed?</h2>
+    <p>If the answer depends on you standing beside the work, the disclosure is not finished.</p>
+  </section>
+</ContentLayout>
+
+<style>
+  .field-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
+    gap: 3rem;
+    align-items: end;
+    margin-block: 0 4.5rem;
+    padding-block: 2rem 3rem;
+    border-block: 1px solid var(--course-line-strong);
+  }
+
+  .field-intro h2,
+  .field-sequence h2,
+  .ledger-example h2,
+  .evidence-loop h2,
+  .release-question h2 { color: var(--course-paper); }
+
+  .field-intro h2 { max-width: 13ch; margin-block: 0.35rem 1rem; font-size: clamp(2.2rem, 5vw, 4.6rem); line-height: 0.98; }
+  .field-intro p { max-width: 45rem; }
+
+  .guide-download {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 1.2rem;
+    border: 1px solid var(--course-gold);
+    color: var(--course-paper);
+    background: color-mix(in srgb, var(--course-gold) 9%, transparent);
+    text-decoration: none;
+  }
+
+  .guide-download svg { width: 1.55rem; height: 1.55rem; color: var(--course-gold); }
+  .guide-download span, .guide-download small { display: block; }
+  .guide-download small { margin-block-start: 0.25rem; color: var(--at-text-secondary); }
+
+  .field-sequence,
+  .ledger-example,
+  .evidence-loop { margin-block: 4.5rem; }
+
+  .field-sequence > h2,
+  .evidence-loop > h2 { max-width: 18ch; }
+
+  .field-sequence ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 2rem 0 0;
+    padding: 0;
+    border-block: 1px solid var(--at-border);
+    list-style: none;
+  }
+
+  .field-sequence li { padding: 1.5rem; }
+  .field-sequence li + li { border-inline-start: 1px solid var(--at-border); }
+  .field-sequence li > span { display: block; color: var(--course-cyan); font-family: var(--at-font-mono); font-size: 0.72rem; }
+  .field-sequence li > strong { display: block; margin-block: 2rem 0.65rem; color: var(--course-paper); }
+  .field-sequence li p { margin: 0; color: var(--at-text-secondary); font-size: 0.9rem; }
+
+  .ledger-example { display: grid; grid-template-columns: minmax(15rem, 0.56fr) minmax(0, 1.44fr); gap: 3rem; align-items: start; }
+  .ledger-example table { margin: 0; }
+  .ledger-example th:first-child { color: var(--course-cyan); font-family: var(--at-font-mono); }
+
+  .evidence-loop > div { display: grid; grid-template-columns: 1fr 1fr; margin-top: 2rem; border-block: 1px solid var(--at-border); }
+  .evidence-loop > div p { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; margin: 0; padding: 1.3rem 0; }
+  .evidence-loop > div p:nth-child(odd) { padding-inline-end: 1.5rem; }
+  .evidence-loop > div p:nth-child(even) { padding-inline-start: 1.5rem; border-inline-start: 1px solid var(--at-border); }
+  .evidence-loop strong { color: var(--course-gold); font-family: var(--at-font-mono); font-size: 0.78rem; }
+  .evidence-loop span { color: var(--at-text-secondary); }
+
+  .release-question {
+    margin-block: 5rem 2rem;
+    padding: 3rem;
+    border-inline-start: 5px solid var(--course-coral);
+    background: color-mix(in srgb, var(--course-coral) 7%, transparent);
+  }
+
+  .release-question h2 { max-width: 25ch; font-size: clamp(1.8rem, 4vw, 3.4rem); }
+  .release-question p:last-child { max-width: 52rem; color: var(--at-text-secondary); }
+
+  @media (max-width: 52rem) {
+    .field-intro,
+    .ledger-example { grid-template-columns: 1fr; }
+    .field-sequence ol,
+    .evidence-loop > div { grid-template-columns: 1fr; }
+    .field-sequence li + li { border-block-start: 1px solid var(--at-border); border-inline-start: 0; }
+    .evidence-loop > div p:nth-child(odd),
+    .evidence-loop > div p:nth-child(even) { padding-inline: 0; border-inline-start: 0; }
+    .evidence-loop > div p + p { border-block-start: 1px solid var(--at-border); }
+    .release-question { padding: 2rem 1.4rem; }
+  }
+</style>

@@ -7,6 +7,7 @@ import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
 import TeachingTeam from "../../components/TeachingTeam.astro";
 import { formatCourseDate } from "../../lib/dates";
 import { graphCollections, sessionLabels, siteConfig } from "../../site-config";
+import "../../styles/course.css";
 
 export async function getStaticPaths() {
   const sessions = await getPublishedCollection("sessions");
@@ -22,8 +23,17 @@ const { Content } = await render(session);
   description={session.data.description}
   {...siteConfig}
 >
-  <p><strong>{formatCourseDate(session.data.date)}</strong></p>
-  <Content />
+  <header class="session-entry">
+    <div>
+      <p class="eyebrow">Listening Lab {String(session.data.week).padStart(2, "0")}</p>
+      <p class="session-date">{formatCourseDate(session.data.date)}</p>
+    </div>
+    <div>
+      <p class="session-label">Leave with</p>
+      <p class="session-output">{session.data.output}</p>
+    </div>
+  </header>
+  <article class="session-prose"><Content /></article>
   <SpecList spec={session.data.spec}>
     What you bring to the session. Written so a reader can tell whether it has
     been met without asking you.
@@ -31,3 +41,13 @@ const { Content } = await render(session);
   <TeachingTeam teachers={session.data.teachers} />
   <RelatedContent entry={session} collections={graphCollections} />
 </ContentLayout>
+
+<style>
+  .session-entry { display: grid; grid-template-columns: minmax(12rem, 0.45fr) minmax(0, 1fr); gap: 3rem; margin-block: 0.5rem 3.5rem; padding-block: 2rem; border-block: 1px solid var(--course-line-strong); }
+  .session-date { margin: 0.4rem 0 0; color: var(--at-text-muted); font-family: var(--at-font-mono); font-size: 0.78rem; }
+  .session-label { margin: 0; color: var(--course-coral); font-family: var(--at-font-mono); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+  .session-output { max-width: 36rem; margin: 0.55rem 0 0; color: var(--course-paper); font-size: clamp(1.4rem, 3vw, 2.35rem); font-weight: 650; line-height: 1.12; }
+  .session-prose { max-width: 54rem; margin-inline: auto; font-size: 1.04rem; }
+  .session-prose :global(h2) { margin-block-start: 2.5rem; color: var(--course-paper); }
+  @media (max-width: 48rem) { .session-entry { grid-template-columns: 1fr; gap: 1.4rem; } }
+</style>

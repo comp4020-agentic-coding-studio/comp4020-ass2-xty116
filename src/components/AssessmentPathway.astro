@@ -1,0 +1,35 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+
+const assessments = (await getPublishedCollection("assessments")).sort(
+  (a, b) => a.data.week - b.data.week,
+);
+---
+
+<ol class="assessment-pathway">
+  {assessments.map((assessment, index) => (
+    <li>
+      <a href={withBase(`/assessments/${assessment.id}/`)}>
+        <span class="assessment-number">0{index + 1}</span>
+        <span class="assessment-copy">
+          <strong>{assessment.data.title}</strong>
+          <small>{assessment.data.description}</small>
+        </span>
+        <span class="assessment-meta"><b>{assessment.data.weight}%</b>Week {assessment.data.week}</span>
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .assessment-pathway { margin: 1.7rem 0 5rem; padding: 0; border-block: 1px solid var(--course-line-strong); list-style: none; }
+  .assessment-pathway li + li { border-block-start: 1px solid var(--at-divider); }
+  .assessment-pathway a { display: grid; grid-template-columns: 3rem minmax(0, 1fr) 6rem; gap: 1rem; align-items: center; padding: 1.2rem 0; color: inherit; text-decoration: none; }
+  .assessment-number { color: var(--course-coral); font-family: var(--at-font-mono); font-size: 0.72rem; }
+  .assessment-copy strong, .assessment-copy small { display: block; }
+  .assessment-copy strong { color: var(--course-paper); font-size: 1.08rem; }
+  .assessment-copy small { max-width: 48rem; margin-block-start: 0.25rem; color: var(--at-text-secondary); }
+  .assessment-meta { color: var(--at-text-muted); font-family: var(--at-font-mono); font-size: 0.67rem; text-align: right; text-transform: uppercase; }
+  .assessment-meta b { display: block; color: var(--course-gold); font-size: 1.25rem; }
+</style>

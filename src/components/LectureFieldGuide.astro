@@ -1,0 +1,354 @@
+---
+import type { LectureGuide } from "../data/lecture-guides";
+
+interface Props {
+  guide: LectureGuide;
+  week: number;
+}
+
+const { guide, week } = Astro.props;
+const minimum = Math.min(...guide.example.values);
+const maximum = Math.max(...guide.example.values);
+const range = maximum - minimum || 1;
+const heights = guide.example.values.map((value) => 18 + ((value - minimum) / range) * 78);
+const titleId = `field-guide-${week}`;
+---
+
+<section class="lecture-guide" aria-labelledby={titleId}>
+  <header class="guide-header">
+    <div>
+      <p class="guide-index">Observation guide {String(week).padStart(2, "0")}</p>
+      <h2 id={titleId}>{guide.phase}</h2>
+    </div>
+    <p class="guide-purpose">Use this page before the slides, then return to the checkpoint after the lab.</p>
+  </header>
+
+  <div class="guide-opening">
+    <section aria-labelledby={`outcomes-${week}`}>
+      <p class="section-label">After this week, you can</p>
+      <ol id={`outcomes-${week}`} class="outcome-list">
+        {guide.outcomes.map((outcome) => <li>{outcome}</li>)}
+      </ol>
+    </section>
+
+    <figure class="teaching-figure">
+      <div class="figure-heading">
+        <p class="section-label">Inspectable teaching model</p>
+        <span>{guide.example.unit}</span>
+      </div>
+      <div class="mini-plot" style={`--plot-columns:${guide.example.values.length}`} role="img" aria-label={`${guide.example.title}. Values: ${guide.example.values.join(", ")}.`}>
+        {guide.example.values.map((value, index) => (
+          <span class="plot-sample" style={`--sample-height:${heights[index]}%`}>
+            <i aria-hidden="true"></i>
+            <b>{Number.isInteger(value) ? value : value.toFixed(2)}</b>
+          </span>
+        ))}
+      </div>
+      <figcaption>{guide.example.context} Values are a teaching model, not an astronomical observation.</figcaption>
+    </figure>
+  </div>
+
+  <section class="worked-example" aria-labelledby={`worked-${week}`}>
+    <div class="worked-intro">
+      <p class="section-label">Worked notebook</p>
+      <h3 id={`worked-${week}`}>{guide.example.title}</h3>
+      <p>{guide.example.context}</p>
+    </div>
+    <ol class="method-steps">
+      {guide.example.steps.map((step) => <li>{step}</li>)}
+    </ol>
+    <p class="worked-result"><strong>What the method supports</strong>{guide.example.result}</p>
+  </section>
+
+  <details class="knowledge-check">
+    <summary>
+      <span class="section-label">Checkpoint</span>
+      <strong>{guide.check.prompt}</strong>
+      <span class="reveal-label">Reveal the reasoning</span>
+    </summary>
+    <div>
+      <p><strong>{guide.check.answer}</strong></p>
+      <p>{guide.check.explanation}</p>
+    </div>
+  </details>
+
+  <footer class="guide-footer">
+    <div>
+      <p class="section-label">Read from the source</p>
+      <p><a href={guide.source.href}>{guide.source.title}</a> <span>by {guide.source.publisher}</span></p>
+      <p>{guide.source.purpose}</p>
+    </div>
+    <div>
+      <p class="section-label">Where this goes next</p>
+      <p>{guide.nextUse}</p>
+    </div>
+  </footer>
+</section>
+
+<style>
+  .lecture-guide {
+    margin-block: 4.5rem 3rem;
+    border-block: 1px solid var(--course-line-strong, var(--at-border));
+  }
+
+  .guide-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(16rem, 0.75fr);
+    gap: 2rem;
+    align-items: end;
+    padding-block: 2rem;
+  }
+
+  .guide-header h2,
+  .worked-example h3 {
+    margin: 0;
+    color: var(--course-paper, var(--at-text));
+  }
+
+  .guide-index,
+  .section-label {
+    margin: 0 0 0.55rem;
+    color: var(--course-gold, var(--at-primary));
+    font-family: var(--at-font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .guide-purpose {
+    max-width: 32rem;
+    margin: 0;
+    color: var(--at-text-secondary);
+  }
+
+  .guide-opening {
+    display: grid;
+    grid-template-columns: minmax(17rem, 0.72fr) minmax(0, 1.28fr);
+    gap: 0;
+    border-block-start: 1px solid var(--at-border);
+  }
+
+  .guide-opening > * {
+    margin: 0;
+    padding: 2rem 0;
+  }
+
+  .guide-opening > :first-child {
+    padding-inline-end: 2rem;
+  }
+
+  .guide-opening > :last-child {
+    padding-inline-start: 2rem;
+    border-inline-start: 1px solid var(--at-border);
+  }
+
+  .outcome-list {
+    margin: 0;
+    padding: 0;
+    counter-reset: outcome;
+    list-style: none;
+  }
+
+  .outcome-list li {
+    display: grid;
+    grid-template-columns: 2.3rem 1fr;
+    gap: 0.75rem;
+    padding-block: 0.8rem;
+    border-block-end: 1px solid var(--at-divider);
+    counter-increment: outcome;
+  }
+
+  .outcome-list li::before {
+    color: var(--course-cyan);
+    content: "0" counter(outcome);
+    font-family: var(--at-font-mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .figure-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .figure-heading span {
+    color: var(--at-text-muted);
+    font-family: var(--at-font-mono);
+    font-size: 0.72rem;
+  }
+
+  .mini-plot {
+    display: grid;
+    grid-template-columns: repeat(var(--plot-columns, 8), minmax(0, 1fr));
+    align-items: end;
+    gap: clamp(0.3rem, 1vw, 0.75rem);
+    min-height: 15rem;
+    padding: 1.5rem 1rem 0.75rem;
+    border-inline-start: 1px solid var(--course-cyan);
+    border-block-end: 1px solid var(--course-cyan);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--course-cyan) 9%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--course-cyan) 9%, transparent) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+  }
+
+  .plot-sample {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: end;
+    height: 12rem;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .plot-sample i {
+    display: block;
+    height: var(--sample-height);
+    min-height: 0.35rem;
+    background: linear-gradient(180deg, var(--course-gold), color-mix(in srgb, var(--course-cyan) 72%, var(--course-ink)));
+  }
+
+  .plot-sample b {
+    margin-block-start: 0.45rem;
+    color: var(--at-text-secondary);
+    font-family: var(--at-font-mono);
+    font-size: clamp(0.55rem, 1.1vw, 0.7rem);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .teaching-figure figcaption {
+    max-width: none;
+    margin: 0.8rem 0 0;
+    padding: 0;
+    border: 0;
+    color: var(--at-text-muted);
+    font-size: 0.78rem;
+  }
+
+  .worked-example {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.62fr) minmax(18rem, 1fr) minmax(14rem, 0.76fr);
+    gap: 2rem;
+    padding-block: 2.4rem;
+    border-block-start: 1px solid var(--at-border);
+  }
+
+  .worked-intro p:last-child {
+    margin-top: 0.8rem;
+    color: var(--at-text-secondary);
+  }
+
+  .method-steps {
+    margin: 0;
+    padding-inline-start: 1.4rem;
+  }
+
+  .method-steps li {
+    padding: 0 0 0.75rem 0.45rem;
+  }
+
+  .method-steps li::marker {
+    color: var(--course-cyan);
+    font-family: var(--at-font-mono);
+    font-weight: 700;
+  }
+
+  .worked-result {
+    margin: 0;
+    padding-inline-start: 1.25rem;
+    border-inline-start: 3px solid var(--course-coral);
+    color: var(--at-text-secondary);
+  }
+
+  .worked-result strong {
+    display: block;
+    margin-block-end: 0.6rem;
+    color: var(--course-paper);
+  }
+
+  .knowledge-check {
+    border-block-start: 1px solid var(--at-border);
+  }
+
+  .knowledge-check summary {
+    display: grid;
+    grid-template-columns: 8rem 1fr auto;
+    gap: 1.25rem;
+    align-items: center;
+    padding-block: 1.5rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .knowledge-check summary::-webkit-details-marker { display: none; }
+  .knowledge-check summary .section-label { margin: 0; }
+  .knowledge-check summary strong { color: var(--course-paper); font-size: 1.08rem; }
+
+  .reveal-label {
+    color: var(--course-cyan);
+    font-family: var(--at-font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .knowledge-check[open] .reveal-label { color: var(--course-gold); }
+
+  .knowledge-check > div {
+    margin-inline-start: 9.25rem;
+    padding: 0 0 1.7rem;
+  }
+
+  .knowledge-check > div p {
+    max-width: 60rem;
+    margin-block: 0 0.65rem;
+  }
+
+  .guide-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-block-start: 1px solid var(--at-border);
+  }
+
+  .guide-footer > div {
+    padding-block: 1.7rem;
+  }
+
+  .guide-footer > div + div {
+    padding-inline-start: 2rem;
+    border-inline-start: 1px solid var(--at-border);
+  }
+
+  .guide-footer p { max-width: 38rem; margin-block: 0 0.45rem; }
+  .guide-footer span { color: var(--at-text-muted); }
+
+  @media (max-width: 52rem) {
+    .guide-header,
+    .guide-opening,
+    .worked-example,
+    .guide-footer {
+      grid-template-columns: 1fr;
+    }
+
+    .guide-opening > :first-child,
+    .guide-opening > :last-child,
+    .guide-footer > div + div {
+      padding-inline: 0;
+      border-inline-start: 0;
+    }
+
+    .guide-opening > :last-child,
+    .guide-footer > div + div {
+      border-block-start: 1px solid var(--at-border);
+    }
+
+    .worked-example { gap: 1.35rem; }
+    .knowledge-check summary { grid-template-columns: 1fr; gap: 0.55rem; }
+    .knowledge-check > div { margin-inline-start: 0; }
+    .mini-plot { min-height: 12rem; padding-inline: 0.5rem; }
+    .plot-sample { height: 9.5rem; }
+  }
+</style>

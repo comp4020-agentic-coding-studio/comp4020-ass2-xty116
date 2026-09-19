@@ -3,10 +3,14 @@ import { render } from "astro:content";
 import { getPublishedCollection } from "astro-course-university/content";
 import RelatedContent from "astro-course-university/components/RelatedContent.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import Icon from "astro-theme-university/components/Icon.astro";
 import { withBase } from "astro-theme-university/url";
+import LectureFieldGuide from "../../components/LectureFieldGuide.astro";
 import TeachingTeam from "../../components/TeachingTeam.astro";
+import { lectureGuides } from "../../data/lecture-guides";
 import { formatCourseDate } from "../../lib/dates";
 import { graphCollections, siteConfig } from "../../site-config";
+import "../../styles/course.css";
 
 export async function getStaticPaths() {
   const lectures = await getPublishedCollection("lectures");
@@ -16,12 +20,162 @@ export async function getStaticPaths() {
 const { lecture } = Astro.props;
 const { Content } = await render(lecture);
 const title = `Week ${lecture.data.week}: ${lecture.data.title}`;
+const guide = lectureGuides[lecture.id];
+const lectures = (await getPublishedCollection("lectures")).sort(
+  (a, b) => a.data.week - b.data.week,
+);
+const currentIndex = lectures.findIndex((entry) => entry.id === lecture.id);
+const previous = currentIndex > 0 ? lectures[currentIndex - 1] : undefined;
+const next = currentIndex < lectures.length - 1 ? lectures[currentIndex + 1] : undefined;
 ---
 
 <ContentLayout title={title} description={lecture.data.description} {...siteConfig}>
-  <p><strong>{formatCourseDate(lecture.data.date)}</strong></p>
-  {lecture.data.slides && <p><a href={withBase(lecture.data.slides)}>Open the slides</a></p>}
-  <Content />
+  <header class="lecture-entry">
+    <div>
+      <p class="eyebrow">Week {String(lecture.data.week).padStart(2, "0")} · {guide?.phase}</p>
+      <p class="lecture-date">{formatCourseDate(lecture.data.date)}</p>
+      <p class="lecture-question">{lecture.data.question}</p>
+      <dl class="lecture-object">
+        <dt>Data object</dt>
+        <dd>{lecture.data.dataObject}</dd>
+      </dl>
+    </div>
+    {lecture.data.slides && (
+      <a class="deck-launch" href={withBase(lecture.data.slides)}>
+        <span><Icon name="presentation" /> Lecture deck</span>
+        <small>Open the taught visual narrative</small>
+      </a>
+    )}
+  </header>
+
+  <article class="lecture-prose">
+    <Content />
+  </article>
+
+  {guide && <LectureFieldGuide guide={guide} week={lecture.data.week} />}
+
+  <nav class="week-navigation" aria-label="Adjacent lectures">
+    {previous ? (
+      <a href={withBase(`/lectures/${previous.id}/`)}>
+        <span>Previous observation</span>
+        <strong>Week {previous.data.week}: {previous.data.title}</strong>
+      </a>
+    ) : <span></span>}
+    {next && (
+      <a href={withBase(`/lectures/${next.id}/`)}>
+        <span>Next observation</span>
+        <strong>Week {next.data.week}: {next.data.title}</strong>
+      </a>
+    )}
+  </nav>
+
   <TeachingTeam teachers={lecture.data.teachers} />
   <RelatedContent entry={lecture} collections={graphCollections} />
 </ContentLayout>
+
+<style>
+  .lecture-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.55fr);
+    gap: 3rem;
+    align-items: end;
+    margin-block: 0.5rem 3.5rem;
+    padding-block: 2rem 2.5rem;
+    border-block: 1px solid var(--course-line-strong);
+  }
+
+  .lecture-date {
+    margin-block: 0.45rem 0;
+    color: var(--at-text-muted);
+    font-family: var(--at-font-mono);
+    font-size: 0.78rem;
+  }
+
+  .lecture-question {
+    max-width: 48rem;
+    margin-block: 1.5rem;
+    color: var(--course-paper);
+    font-size: clamp(1.35rem, 2.6vw, 2.2rem);
+    font-weight: 650;
+    line-height: 1.17;
+    text-wrap: balance;
+  }
+
+  .lecture-object {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .lecture-object dt,
+  .lecture-object dd {
+    margin: 0;
+    font-family: var(--at-font-mono);
+    font-size: 0.75rem;
+  }
+
+  .lecture-object dt { color: var(--course-cyan); text-transform: uppercase; }
+  .lecture-object dd { color: var(--at-text-secondary); }
+
+  .deck-launch {
+    display: block;
+    padding: 1.15rem 1.2rem;
+    border: 1px solid color-mix(in srgb, var(--course-gold) 56%, var(--at-border));
+    color: var(--course-paper);
+    background: color-mix(in srgb, var(--course-gold) 8%, transparent);
+    text-decoration: none;
+  }
+
+  .deck-launch span {
+    display: flex;
+    gap: 0.55rem;
+    align-items: center;
+    font-weight: 700;
+  }
+
+  .deck-launch small {
+    display: block;
+    margin-block-start: 0.45rem;
+    color: var(--at-text-secondary);
+  }
+
+  .deck-launch:hover { border-color: var(--course-gold); }
+
+  .lecture-prose {
+    max-width: 54rem;
+    margin-inline: auto;
+    font-size: 1.06rem;
+  }
+
+  .lecture-prose :global(h2) {
+    margin-block-start: 2.5rem;
+    color: var(--course-paper);
+  }
+
+  .week-navigation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin-block: 2.5rem 4rem;
+    border: 1px solid var(--at-border);
+    background: var(--at-border);
+  }
+
+  .week-navigation a {
+    padding: 1.2rem;
+    color: var(--course-paper);
+    background: var(--at-bg-elevated);
+    text-decoration: none;
+  }
+
+  .week-navigation a:last-child { text-align: right; }
+  .week-navigation span { display: block; color: var(--course-cyan); font-family: var(--at-font-mono); font-size: 0.7rem; text-transform: uppercase; }
+  .week-navigation strong { display: block; margin-block-start: 0.35rem; }
+
+  @media (max-width: 48rem) {
+    .lecture-entry { grid-template-columns: 1fr; gap: 1.5rem; }
+    .week-navigation { grid-template-columns: 1fr; }
+    .week-navigation > span:empty { display: none; }
+    .week-navigation a:last-child { text-align: left; }
+  }
+</style>

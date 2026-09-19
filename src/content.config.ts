@@ -39,6 +39,7 @@ export const collections = {
         week: weekSchema,
         date: z.coerce.date(),
         teachers: teacherRefs.optional(),
+        output: z.string().trim().min(10),
       })
       .loose(),
   }),
@@ -62,6 +63,8 @@ export const collections = {
         week: weekSchema,
         date: z.coerce.date(),
         teachers: teacherRefs.optional(),
+        question: z.string().trim().min(20),
+        dataObject: z.string().trim().min(5),
         slides: z
           .string()
           .regex(/^\/decks\/[a-z0-9-]+\/$/)
