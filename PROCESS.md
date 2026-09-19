@@ -70,3 +70,6 @@ synthetic plots, process diagrams and distinct lab briefs tied to each week's
 data object. I raised the contract to require at least eight slides per lecture
 and measured every slide at 1920×1080 and 390×844 so depth could not regress
 into repeated content-shaped chunks.
+Commit
+[`8987cd0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/8987cd0)
+aligned every deck's colours and type with the course observatory.
