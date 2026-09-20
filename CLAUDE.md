@@ -23,6 +23,7 @@
 - The visual language is a listening station: measured waveforms, timelines, instrument readouts and observation logs. Avoid a generic dark starfield theme.
 - Visual richness must clarify the course: prefer the semester atlas, signal comparisons and evidence ledgers over decorative telemetry or repeated cards.
 - Audio never autoplays. Every sound control has pause/stop, keyboard access, a visible mapping legend and a non-audio representation.
+- Audio activation must fail visibly: never let a suspended browser audio context stall the interaction. Continue the visual playback and name the fallback state when sound is blocked.
 - Pages must remain usable at 1920x1080 and 390x844, under reduced motion, and when resized mid-interaction.
 - The Listening Lab may be playful, but it demonstrates one honest mapping at a time and exposes the underlying values.
 
