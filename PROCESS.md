@@ -3,16 +3,14 @@
 ## What I built
 
 I built **SLOP3255: How to Hear the Universe**, a twelve-week Slop University
-course about astronomical data sonification. Its central position is that data
-does not “sing” by itself: an audible result is produced by choices about
-scaling, timing, filtering, timbre and interaction. The course therefore asks
-students to expose the chain from observation to playback. Twelve lectures and
-twelve Listening Labs move from basic mapping through pulsars, solar radio,
-GW150914, image scanning and spectra, then into uncertainty, accessibility and
-ethical critique. Four staged assessments culminate in a public listening
-instrument. The site also contains a working Web Audio lab in which the same
-synthetic light curve can be heard through pitch or rhythm while its values and
-mapping rules remain visible.
+course in astronomical data sonification. Its position is that data does not
+“sing” by itself: audible results contain decisions about scale, time and
+timbre, so students must expose the chain from observation to playback. Twelve
+lecture/lab pairs move from mapping through pulsars, solar radio, gravitational
+waves, images and spectra into uncertainty, accessibility and ethical critique.
+Four staged assessments culminate in a public listening instrument. A working
+Web Audio lab compares pitch and rhythm mappings while keeping the same source
+values visible.
 
 ## How I got here
 
@@ -37,20 +35,16 @@ than relying on visual completeness.
 The main build in
 [`5901cbe`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/5901cbe)
 returned that contract to green. I directed the agent to keep the fixed SlopU
-platform while replacing all starter content and imagery. We checked scientific
-claims against primary institutional sources including LIGO, NASA Exoplanet
-Watch, Chandra and CSIRO/ATNF. The generated observatory hero was used as a
-course-specific visual asset, while the page treatment used measured grids,
-readouts and mapping legends instead of a generic space aesthetic. The
-Listening Lab uses no autoplay, exposes raw values, provides a stop control and
-keeps a non-audio representation on screen.
+platform while replacing its content and imagery. We checked claims against
+primary sources from LIGO, NASA Exoplanet Watch, Chandra and CSIRO/ATNF. The
+visual treatment uses measured grids, readouts and mapping legends instead of a
+generic space mood. The Listening Lab avoids autoplay, exposes raw values and
+keeps stop and non-audio routes available.
 
 Automated checks were only one sensor. I inspected the live site at 1920×1080
-and 390×844, exercised play, stop and both radio modes, and opened the week-six
-deck and non-adjacent course pages. This caught issues the build did not:
-course styles were absent from direct Astro pages, the ten bars scrolled on a
-phone, index pages lacked visible headings, and Reveal's default mobile scaling
-made deck text too small. Commit
+and 390×844, exercised both mappings and opened non-adjacent course pages and a
+deck. This exposed missing styles on direct Astro pages, phone overflow, absent
+index headings and illegible mobile deck scaling. Commit
 [`fb4b487`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/fb4b487)
 records the responsive fixes. I then re-ran type checking, production build,
 accessibility, internal-link, deck, generated-API and custom contract checks.
@@ -74,3 +68,14 @@ commits
 and
 [`8987cd0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/8987cd0)
 supply 110 distinct, course-styled slides rather than one repeated outline.
+
+A final public-browser check exposed a subtler failure: Play could appear inert
+when an embedded browser left `AudioContext.resume()` pending. I rejected
+“works in Chrome” as acceptance. In
+[`d679c3c`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/d679c3c)
+I paired the fix with a fallback regression contract, decoupled visual progress
+from audio activation, raised the audible gain and named the blocked-audio
+state. I accepted it only after the deployed page advanced its sample readout,
+highlighted each bar and enabled Stop. Commit
+[`773119b`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass2-xty116/commit/773119b)
+preserves that diagnosis as a harness rule rather than a one-off patch.
