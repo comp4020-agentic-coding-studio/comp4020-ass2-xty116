@@ -26,4 +26,11 @@ describe("the course remains useful beyond its timetable", () => {
     expect(guide).toContain("## Listening test");
     expect(guide).toContain("## Release audit");
   });
+
+  it("keeps the listening lab responsive when browser audio is blocked", () => {
+    const lab = readFileSync(resolve("src/components/ListeningLab.astro"), "utf8");
+    expect(lab).toContain("Starting audio");
+    expect(lab).toContain("Audio blocked · visual playback");
+    expect(lab).toContain("webkitAudioContext");
+  });
 });

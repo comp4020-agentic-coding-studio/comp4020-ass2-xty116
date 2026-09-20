@@ -92,13 +92,13 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
     };
 
     const tone = (frequency: number) => {
-      if (!context) return;
+      if (!context || context.state !== "running") return;
       const oscillator = context.createOscillator();
       const gain = context.createGain();
       oscillator.type = "sine";
       oscillator.frequency.value = frequency;
       gain.gain.setValueAtTime(0.0001, context.currentTime);
-      const audibleGain = 0.06 * (Number(level?.value ?? 35) / 100);
+      const audibleGain = 0.16 * (Number(level?.value ?? 35) / 100);
       gain.gain.exponentialRampToValueAtTime(Math.max(audibleGain, 0.0001), context.currentTime + 0.015);
       gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.12);
       oscillator.connect(gain).connect(context.destination);
@@ -106,16 +106,41 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
       oscillator.stop(context.currentTime + 0.13);
     };
 
+    const activateAudio = async () => {
+      const AudioContextConstructor = window.AudioContext
+        ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioContextConstructor) return false;
+
+      try {
+        context ??= new AudioContextConstructor();
+        if (context.state === "suspended") {
+          await Promise.race([
+            context.resume(),
+            new Promise<void>((_, reject) => {
+              window.setTimeout(() => reject(new Error("Audio activation timed out")), 700);
+            }),
+          ]);
+        }
+        return context.state === "running";
+      } catch {
+        return false;
+      }
+    };
+
     const perform = async () => {
       clear();
-      context ??= new AudioContext();
-      await context.resume();
       active = true;
       if (play) play.disabled = true;
       if (stop) stop.disabled = false;
+      if (status) status.value = "Starting audio";
+
+      const audioReady = await activateAudio();
+      if (!active) return;
+      if (!audioReady && status) status.value = "Audio blocked · visual playback";
+
       const selected = mode();
       const playbackRate = Number(speed?.value ?? 1);
-      let elapsed = 0;
+      let elapsed = audioReady ? 0 : 400;
       readings.forEach((reading, index) => {
         const baseDelay = selected === "pitch" ? 320 : 180 + ((1 - reading) / 0.17) * 340;
         const delay = baseDelay / playbackRate;
@@ -128,17 +153,17 @@ const values = [0.96, 0.98, 0.99, 0.91, 0.83, 0.9, 0.98, 1.0, 0.97, 0.99];
           lab.querySelectorAll<HTMLElement>(".sample:not(.active)").forEach((sample) => sample.removeAttribute("aria-current"));
           const frequency = selected === "pitch" ? 220 + ((reading - 0.83) / 0.17) * 440 : 392;
           tone(frequency);
-          if (status) status.value = `Sample ${index + 1}: ${reading.toFixed(2)}`;
+          if (status) status.value = `Sample ${index + 1}: ${reading.toFixed(2)}${audioReady ? "" : " · visual only"}`;
         }, elapsed));
         elapsed += delay;
       });
       timers.push(window.setTimeout(() => {
         clear();
-        if (status) status.value = "Complete";
+        if (status) status.value = audioReady ? "Complete" : "Complete · visual only";
       }, elapsed + 180));
     };
 
-    play?.addEventListener("click", perform);
+    play?.addEventListener("click", () => { void perform(); });
     stop?.addEventListener("click", clear);
     lab.querySelectorAll<HTMLInputElement>("input[type=radio]").forEach((radio) => {
       radio.addEventListener("change", () => {
